@@ -51,3 +51,15 @@
 #endif
 
 
+#include "resource.h"       // main symbols
+
+
+class CGobalVariable {
+public:
+	HICON hIconApp;//标题栏图标
+
+public:
+	CGobalVariable();
+	bool Init();
+};
+extern CGobalVariable g_GobalVariable; //全局变量 

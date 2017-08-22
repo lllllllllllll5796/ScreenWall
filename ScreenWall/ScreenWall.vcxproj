@@ -181,6 +181,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ScreenWall.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="ScreenWall.cpp" />
     <ClCompile Include="ScreenWallDoc.cpp" />
@@ -205,6 +207,7 @@
     <ResourceCompile Include="ScreenWall.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\grid_64px.ico" />
     <Image Include="res\ScreenWall.ico" />
     <Image Include="res\ScreenWallDoc.ico" />
     <Image Include="res\Toolbar.bmp" />
@@ -217,4 +220,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="ScreenWall.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

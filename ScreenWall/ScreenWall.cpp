@@ -11,6 +11,8 @@
 #include "ScreenWallDoc.h"
 #include "ScreenWallView.h"
 
+#include "LoginDlg.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -43,7 +45,7 @@ CScreenWallApp::CScreenWallApp()
 // The one and only CScreenWallApp object
 
 CScreenWallApp theApp;
-
+CGobalVariable g_GobalVariable; //全局变量
 
 // CScreenWallApp initialization
 
@@ -60,7 +62,7 @@ BOOL CScreenWallApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinAppEx::InitInstance();
-
+	g_GobalVariable.Init();
 
 	EnableTaskbarInteraction(FALSE);
 
@@ -105,7 +107,9 @@ BOOL CScreenWallApp::InitInstance()
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
-
+	CLoginDlg login;
+	INT_PTR nRet = login.DoModal();
+	//
 
 	// Dispatch commands specified on the command line.  Will return FALSE if
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.
