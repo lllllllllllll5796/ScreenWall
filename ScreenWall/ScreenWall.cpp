@@ -62,7 +62,16 @@ BOOL CScreenWallApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinAppEx::InitInstance();
-	g_GobalVariable.Init();
+	g_GobalVariable.Init(); //全局变量初始化
+
+	//Alt + F4没用
+	CLoginDlg login; //登录
+	//DoModal返回值是传给EndDialog的参数，EndDialog用于关闭Dialog
+	INT_PTR nRet = login.DoModal();
+	if (IDCANCEL == nRet) {
+		GdiplusShutdown(g_GobalVariable.gdiplusToken);
+		return FALSE; //关闭对话框
+	}	
 
 	EnableTaskbarInteraction(FALSE);
 
@@ -79,12 +88,12 @@ BOOL CScreenWallApp::InitInstance()
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
-
 	InitContextMenuManager();
 
 	InitKeyboardManager();
 
 	InitTooltipManager();
+
 	CMFCToolTipInfo ttParams;
 	ttParams.m_bVislManagerTheme = TRUE;
 	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
@@ -107,8 +116,6 @@ BOOL CScreenWallApp::InitInstance()
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
-	CLoginDlg login;
-	INT_PTR nRet = login.DoModal();
 	//
 
 	// Dispatch commands specified on the command line.  Will return FALSE if
@@ -119,6 +126,7 @@ BOOL CScreenWallApp::InitInstance()
 	// The one and only window has been initialized, so show and update it
 	m_pMainWnd->ShowWindow(SW_SHOWMAXIMIZED);
 	m_pMainWnd->UpdateWindow();
+
 	return TRUE;
 }
 
@@ -187,3 +195,10 @@ void CScreenWallApp::SaveCustomState()
 
 
 
+
+
+int CScreenWallApp::ExitInstance()
+{
+	GdiplusShutdown(g_GobalVariable.gdiplusToken);
+	return CWinAppEx::ExitInstance();
+}

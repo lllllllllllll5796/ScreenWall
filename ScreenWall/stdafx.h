@@ -50,6 +50,9 @@
 #endif
 #endif
 
+#include <gdiplus.h>
+#pragma comment(lib,"Gdiplus.lib")
+using namespace Gdiplus;
 
 #include "resource.h"       // main symbols
 
@@ -57,6 +60,9 @@
 class CGobalVariable {
 public:
 	HICON hIconApp;//标题栏图标
+	//GDI+初始化
+	ULONG_PTR gdiplusToken;
+	GdiplusStartupInput gdiplusStartupInput;
 
 public:
 	CGobalVariable();
