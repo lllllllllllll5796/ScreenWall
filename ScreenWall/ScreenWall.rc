@@ -95,7 +95,8 @@ BEGIN
     COMBOBOX        IDC_combo_ServerIP,105,118,96,118,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "记住密码",IDC_ck_RemPswd,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,57,135,48,10
     PUSHBUTTON      "修改密码",IDC_btn_ModifyPswd,203,102,23,14,BS_ICON
-    GROUPBOX        "登录设置",IDC_STATIC,7,74,289,82
+    GROUPBOX        "登录设置",IDC_sts_LoginGroup,7,74,289,82
+    GROUPBOX        "公告栏",IDC_sts_Notice,7,31,282,40
 END
 
 
