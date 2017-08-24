@@ -208,6 +208,11 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\grid_64px.ico" />
+    <Image Include="res\icon1.ico" />
+    <Image Include="res\pen2_24px.bmp" />
+    <Image Include="res\pen2_24px_Focus.bmp" />
+    <Image Include="res\pen_24px.bmp" />
+    <Image Include="res\pen_24px.ico" />
     <Image Include="res\ScreenWall.ico" />
     <Image Include="res\ScreenWallDoc.ico" />
     <Image Include="res\Toolbar.bmp" />

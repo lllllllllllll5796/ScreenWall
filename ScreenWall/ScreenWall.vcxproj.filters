@@ -90,6 +90,21 @@
     <Image Include="res\grid_64px.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pen_24px.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pen_24px.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pen2_24px.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pen2_24px_Focus.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ScreenWall.rc2">

@@ -1,4 +1,5 @@
 #pragma once
+#include "afxext.h"
 
 
 // CLoginDlg dialog
@@ -24,4 +25,8 @@ protected:
 public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
+protected:
+	CBitmapButton m_btnModifyPswd;
+public:
+	afx_msg void OnBnClickedLoginModifypswd();
 };

@@ -24,11 +24,13 @@ CLoginDlg::~CLoginDlg()
 void CLoginDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_Login_ModifyPswd, m_btnModifyPswd);
 }
 
 
 BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_WM_PAINT()
+	ON_BN_CLICKED(IDC_Login_ModifyPswd, &CLoginDlg::OnBnClickedLoginModifypswd)
 END_MESSAGE_MAP()
 
 
@@ -43,6 +45,14 @@ BOOL CLoginDlg::OnInitDialog()
 	SetIcon(g_GobalVariable.hIconApp, FALSE);
 	//客户端区域
 	GetClientRect(&m_rcClient);
+	//登录图片
+	CStatic* pWndLoginPic = (CStatic*)GetDlgItem(IDC_Login_Pic);
+	pWndLoginPic->ModifyStyle(0, SS_ICON);//自动适应图片大小
+	pWndLoginPic->SetIcon(g_GobalVariable.hIconApp);
+
+	//修改密码按钮 
+	m_btnModifyPswd.LoadBitmaps(IDB_Pen2_24px, IDB_Pen2_24px_Focus, IDB_Pen2_24px_Focus);
+	m_btnModifyPswd.SizeToContent();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // EXCEPTION: OCX Property Pages should return FALSE
@@ -102,5 +112,11 @@ void CLoginDlg::OnPaint()
 	CRect rcNotice(rcLoginGroup.left, y, rcLoginGroup.right, rcLoginGroup.top);
 	GetDlgItem(IDC_sts_Notice)->MoveWindow(&rcNotice);
 
+}
 
+
+void CLoginDlg::OnBnClickedLoginModifypswd()
+{
+	//
+	AfxMessageBox(_T("修改密码"));
 }
