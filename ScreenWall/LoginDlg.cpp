@@ -56,13 +56,16 @@ void CLoginDlg::OnPaint()
 					   // Do not call CDialogEx::OnPaint() for painting messages
 	
 	Graphics gh(dc.GetSafeHdc());
-	//填充背景色
+	//布局坐标、宽高
+	int x(m_rcClient.left), y(m_rcClient.top);
+	int	w(m_rcClient.Width()), h(m_rcClient.Height());
+
+	//背景色
 	//Rect rc(m_rcClient.left, m_rcClient.top, m_rcClient.Width(), m_rcClient.Height());
 	//SolidBrush bgBrush(Color(0, 255, 255, 255));
 	//gh.FillRectangle(&bgBrush, rc);
-	int x(m_rcClient.left), y(m_rcClient.top);//坐标
-	int	w(m_rcClient.Width()), h(m_rcClient.Height()); //宽高
 
+	//渐变区
 	Rect rcWelcome(x, y, w, h/4);
 	LinearGradientBrush bgBrush(rcWelcome,
 		Color(216, 254, 233), Color(255, 255, 255),
@@ -89,11 +92,11 @@ void CLoginDlg::OnPaint()
 
 	//画线
 	Pen p(Color(216, 254, 233), 2);
-	gh.DrawLine(&p, 0, rcWelcome.GetBottom(), rcWelcome.GetRight(), rcWelcome.GetBottom());
+	gh.DrawLine(&p, 0, rcWelcome.GetBottom(), m_rcClient.right, rcWelcome.GetBottom());
 
 	//布局公告栏
 	y = rcWelcome.GetBottom() + 2;
-	CRect rcLoginGroup; //登录设置控件位置
+	CRect rcLoginGroup; //"登录设置"控件位置
 	GetDlgItem(IDC_sts_LoginGroup)->GetWindowRect(&rcLoginGroup); //屏幕坐标
 	ScreenToClient(&rcLoginGroup);
 	CRect rcNotice(rcLoginGroup.left, y, rcLoginGroup.right, rcLoginGroup.top);
