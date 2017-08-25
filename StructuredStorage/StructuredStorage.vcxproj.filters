@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Type Define">
+      <UniqueIdentifier>{01c5cdd9-e5d4-4786-a991-e1e4a993dd9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cfg">
+      <UniqueIdentifier>{6eb41f40-090b-4b41-9764-95485ef158d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -34,6 +40,24 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Stg.h">
+      <Filter>Type Define</Filter>
+    </ClInclude>
+    <ClInclude Include="CfgNormalDlg.h">
+      <Filter>Cfg</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CfgCustomDlg.h">
+      <Filter>Cfg</Filter>
+    </ClInclude>
+    <ClInclude Include="CfgRevisionDlg.h">
+      <Filter>Cfg</Filter>
+    </ClInclude>
+    <ClInclude Include="CfgSaveDlg.h">
+      <Filter>Cfg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StructuredStorage.cpp">
@@ -44,6 +68,24 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CfgNormalDlg.cpp">
+      <Filter>Cfg</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stg.cpp">
+      <Filter>Type Define</Filter>
+    </ClCompile>
+    <ClCompile Include="CfgCustomDlg.cpp">
+      <Filter>Cfg</Filter>
+    </ClCompile>
+    <ClCompile Include="CfgRevisionDlg.cpp">
+      <Filter>Cfg</Filter>
+    </ClCompile>
+    <ClCompile Include="CfgSaveDlg.cpp">
+      <Filter>Cfg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

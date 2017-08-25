@@ -30,12 +30,24 @@ CStructuredStorageApp::CStructuredStorageApp()
 // The one and only CStructuredStorageApp object
 
 CStructuredStorageApp theApp;
-
+CGobalVariable g_GobalVariable;
 
 // CStructuredStorageApp initialization
+//#include <map>
+//#include <string>
+//struct TEST {
+//	//std::map<int, int> mapTest;
+//	//int a;
+//	std::string s;
+//};
 
 BOOL CStructuredStorageApp::InitInstance()
 {
+	//size_t len = sizeof(TEST);
+
+	
+
+
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
@@ -47,7 +59,7 @@ BOOL CStructuredStorageApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinApp::InitInstance();
-
+	g_GobalVariable.Init();
 
 	// Create the shell manager, in case the dialog contains
 	// any shell tree view or shell list view controls.

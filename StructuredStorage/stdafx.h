@@ -51,3 +51,19 @@
 #endif
 
 
+
+#include "resource.h"       // main symbols
+#include <utility> //std::move
+#include "Utility.h"
+
+
+class CGobalVariable {
+public:
+	TCHAR szExePath[MAX_PATH]; //程序所在目录
+	TCHAR szStgFilename[MAX_PATH]; //结构化存储文件
+
+public:
+	CGobalVariable() {}
+	bool Init();
+};
+extern CGobalVariable g_GobalVariable; //全局变量

@@ -182,21 +182,33 @@
     <Text Include="工程介绍.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CfgCustomDlg.h" />
+    <ClInclude Include="CfgNormalDlg.h" />
+    <ClInclude Include="CfgRevisionDlg.h" />
+    <ClInclude Include="CfgSaveDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Stg.h" />
     <ClInclude Include="StructuredStorage.h" />
     <ClInclude Include="StructuredStorageDlg.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CfgCustomDlg.cpp" />
+    <ClCompile Include="CfgNormalDlg.cpp" />
+    <ClCompile Include="CfgRevisionDlg.cpp" />
+    <ClCompile Include="CfgSaveDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Stg.cpp" />
     <ClCompile Include="StructuredStorage.cpp" />
     <ClCompile Include="StructuredStorageDlg.cpp" />
+    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="StructuredStorage.rc" />
@@ -210,4 +222,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="StructuredStorage.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
