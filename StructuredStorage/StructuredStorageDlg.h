@@ -6,10 +6,12 @@
 #include "afxcmn.h"
 #include <vector>
 
+
 class CCfgNormalDlg;
 class CCfgRevisionDlg;
 class CCfgSaveDlg;
 class CCfgCustomDlg;
+//class CSSFile;//复合文档
 
 // CStructuredStorageDlg dialog
 class CStructuredStorageDlg : public CDialogEx
@@ -38,6 +40,7 @@ protected:
 	CCfgCustomDlg* m_cfgCustomDlg;
 	std::vector<CDialog*> m_vecCfgDlgPtr; /*= {//编译器还不知道它们是继承自CDialog的
 		m_cfgNormalDlg, m_cfgRevisionDlg, m_cfgSaveDlg, m_cfgCustomDlg };*/ 
+	//CSSFile* m_ssFile;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -47,4 +50,5 @@ protected:
 	CListCtrl m_lcCfgGuide;
 public:
 	afx_msg void OnItemChangedCfgGuide(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedOk();
 };

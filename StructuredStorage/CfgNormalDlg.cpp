@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 
 //#include "Stg.h"
+#pragma warning(disable:4800)
 
 // CCfgNormalDlg dialog
 
@@ -22,6 +23,7 @@ CCfgNormalDlg::CCfgNormalDlg(CWnd* pParent /*=NULL*/)
 CCfgNormalDlg::~CCfgNormalDlg()
 {
 	//SAFE_DELETE(m_pCfg);
+	m_pStream->Release();
 }
 
 void CCfgNormalDlg::DoDataExchange(CDataExchange* pDX)
@@ -38,6 +40,13 @@ void CCfgNormalDlg::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CCfgNormalDlg, CDialogEx)
+	ON_BN_CLICKED(IDC_CHECK1, &CCfgNormalDlg::OnClickedCheck1)
+	ON_BN_CLICKED(IDC_CHECK2, &CCfgNormalDlg::OnClickedCheck2)
+	ON_BN_CLICKED(IDC_CHECK3, &CCfgNormalDlg::OnClickedCheck3)
+	ON_CBN_SELCHANGE(IDC_COMBO1, &CCfgNormalDlg::OnSelChangeCombo1)
+	ON_CBN_SELCHANGE(IDC_COMBO2, &CCfgNormalDlg::OnSelChangeCombo2)
+	ON_EN_CHANGE(IDC_EDIT2, &CCfgNormalDlg::OnChangeEdit2)
+	ON_EN_CHANGE(IDC_EDIT3, &CCfgNormalDlg::OnChangeEdit3)
 END_MESSAGE_MAP()
 
 
@@ -48,6 +57,14 @@ BOOL CCfgNormalDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
+	CString strStreamName(g_StgStreamNames[StgDetailedCfgs_Normal]);
+	auto pSSFile = g_GobalVariable.m_ssFile;
+	if (pSSFile->OpenStream(strStreamName, &m_pStream)) {
+		ULONG ulRead = 0;
+		m_pStream->Read(&m_cfg, sizeof(m_cfg), &ulRead);
+	}
+
+	GetStgCfgs();
 	const auto& cfg = m_cfg;
 	m_ck_1.SetCheck(cfg.bfloatToolbar);
 	m_ck_2.SetCheck(cfg.bRealtimePreview);
@@ -71,4 +88,127 @@ BOOL CCfgNormalDlg::OnInitDialog()
 	m_ck_3.SetCheck(cfg.bOpenEmailWhenInReadView);
 
 	return TRUE; 
+}
+
+
+HRESULT CCfgNormalDlg::GetStgCfgs()
+{
+	//读取Stg：pStgRoot放在全局，pStream作为成员，优化性能 ok
+	//GetStgCfgs优化：m_cfg继承，此函数在父类实现
+	
+	//StgNormalCfg stCfg;//常规配置
+	HRESULT hr = S_OK;
+	auto pSSFile = g_GobalVariable.m_ssFile;
+	CString strName(g_StgStreamNames[StgDetailedCfgs_Normal]);
+	if (!pSSFile->OpenStream(strName, &m_pStream)) {
+		if (!pSSFile->CreateStream(strName, &m_pStream)) {
+			TRACE(_T("CGobalVariable::Init : CCfgNormalDlg::GetStgCfgs CreateStream Failed !"));
+		}
+	}
+	else {
+		hr = m_pStream->Read(&m_cfg, sizeof(m_cfg), 0);
+		if (hr == S_OK)
+			TRACE(_T("CCfgNormalDlg::GetStgCfgs OK."));
+	}
+	//if (pStgRoot) {
+	//	//LPSTORAGE pSubStg = nullptr;
+	//	//LPSTREAM pStream = nullptr;
+	//	LPENUMSTATSTG pEnum = nullptr;
+	//	STATSTG statStg;
+	//	bool bGetCfg = false;
+	//	if (pStgRoot->EnumElements(0, nullptr, 0, &pEnum) == NOERROR) {
+	//		while (pEnum->Next(1, &statStg, 0) == NOERROR) {
+	//			if (0 == _tcscmp(statStg.pwcsName, g_StgStreamNames[StgDetailedCfgs_Normal])) {
+	//				pStgRoot->OpenStream(statStg.pwcsName, 0,
+	//					STGM_READ | STGM_SHARE_EXCLUSIVE, 0, &m_pStream);
+	//				hr = m_pStream->Read(&m_cfg, sizeof(m_cfg), 0);
+	//				if (hr == S_OK)
+	//					bGetCfg = true;
+	//				else break;
+	//				//m_cfg = stCfg;
+	//			}
+	//		}
+	//	}
+	//	//pStream->Release();
+	//	pEnum->Release();
+	//	//pStgRoot->Release();
+	//	if(! bGetCfg)
+	//		TRACE(_T("CCfgNormalDlg::GetStgCfgs : default cfg."));
+	//}
+	return hr;
+	//return S_OK;
+}
+
+HRESULT CCfgNormalDlg::SetStgCfgs()
+{
+	HRESULT hr = S_OK;
+	if (false == m_bDirty)
+		return hr;
+	
+	hr = m_pStream->Write(&m_cfg, sizeof(m_cfg), 0);
+
+	return hr;
+}
+
+//bool CCfgNormalDlg::IsDirty()
+//{
+//	return m_bDirty;
+//}
+
+void CCfgNormalDlg::OnClickedCheck1()
+{
+	m_bDirty = true;
+	m_cfg.bfloatToolbar = m_ck_1.GetCheck();
+}
+
+
+void CCfgNormalDlg::OnClickedCheck2()
+{
+	m_bDirty = true;
+	m_cfg.bRealtimePreview = m_ck_2.GetCheck();
+}
+
+
+void CCfgNormalDlg::OnClickedCheck3()
+{
+	m_bDirty = true;
+	m_cfg.bOpenEmailWhenInReadView = m_ck_3.GetCheck();
+}
+
+
+void CCfgNormalDlg::OnSelChangeCombo1()
+{
+	m_bDirty = true;
+	m_cfg.emColorScheme = (StgNormalColorScheme)m_cbo_1.GetCurSel();
+}
+
+
+void CCfgNormalDlg::OnSelChangeCombo2()
+{
+	m_bDirty = true;
+	m_cfg.emScreenTipStyle = (StgNormalScreenTipStyle)m_cbo_2.GetCurSel();
+}
+
+
+void CCfgNormalDlg::OnChangeEdit2()
+{
+	//m_bDirty = true; 一开始就收到
+	static CString str;
+	m_edt_2.GetWindowText(str);
+	if (str != m_cfg.strUsername) {
+		m_bDirty = true;
+		m_cfg.strUsername = std::move(str);
+	}
+}
+
+
+void CCfgNormalDlg::OnChangeEdit3()
+{
+	//m_bDirty = true;
+	static CString str;
+	m_edt_3.GetWindowText(str);
+	if (str != m_cfg.strShortname) {
+		m_bDirty = true;
+		m_cfg.strShortname = std::move(str);
+	}
 }

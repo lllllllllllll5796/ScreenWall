@@ -56,14 +56,18 @@
 #include <utility> //std::move
 #include "Utility.h"
 
+class CSSFile;//复合文档
 
 class CGobalVariable {
 public:
 	TCHAR szExePath[MAX_PATH]; //程序所在目录
-	TCHAR szStgFilename[MAX_PATH]; //结构化存储文件
+	//TCHAR szStgFilename[MAX_PATH]; //结构化存储文件
+	//LPSTORAGE pStgRoot = nullptr;//根存储
+	CSSFile* m_ssFile;
 
 public:
-	CGobalVariable() {}
+	CGobalVariable();
+	~CGobalVariable();
 	bool Init();
 };
 extern CGobalVariable g_GobalVariable; //全局变量

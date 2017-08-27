@@ -1,4 +1,5 @@
 #pragma once
+#include "afxwin.h"
 
 
 // CCfgSaveDlg dialog
@@ -20,4 +21,8 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual BOOL OnInitDialog();
+protected:
+	CComboBox m_cbo1;
 };

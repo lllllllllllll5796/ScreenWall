@@ -41,11 +41,15 @@ CGobalVariable g_GobalVariable;
 //	std::string s;
 //};
 
+enum TestEnum {
+	TestEnum_Buff
+};
+
 BOOL CStructuredStorageApp::InitInstance()
 {
 	//size_t len = sizeof(TEST);
 
-	
+	//size_t  len = sizeof(TestEnum);
 
 
 	// InitCommonControlsEx() is required on Windows XP if an application
@@ -59,7 +63,8 @@ BOOL CStructuredStorageApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinApp::InitInstance();
-	g_GobalVariable.Init();
+	if (false == g_GobalVariable.Init())
+		return FALSE;
 
 	// Create the shell manager, in case the dialog contains
 	// any shell tree view or shell list view controls.

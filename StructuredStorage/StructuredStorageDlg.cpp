@@ -37,6 +37,8 @@ CStructuredStorageDlg::CStructuredStorageDlg(CWnd* pParent /*=NULL*/)
 	m_vecCfgDlgPtr[StgCfgs_Revision] = m_cfgRevisionDlg;
 	m_vecCfgDlgPtr[StgCfgs_Save] = m_cfgSaveDlg;
 	m_vecCfgDlgPtr[StgCfgs_Custom] = m_cfgCustomDlg;
+
+	//m_ssFile = new CSSFile;
 }
 
 CStructuredStorageDlg::~CStructuredStorageDlg()
@@ -44,6 +46,7 @@ CStructuredStorageDlg::~CStructuredStorageDlg()
 	for (auto pDlg : m_vecCfgDlgPtr) {
 		SAFE_DELETE(pDlg);//虚析构安全
 	}
+	//SAFE_DELETE(m_ssFile);
 	//SAFE_DELETE(m_cfgNormalDlg);
 	//SAFE_DELETE(m_cfgRevisionDlg);
 	//SAFE_DELETE(m_cfgSaveDlg);
@@ -60,6 +63,7 @@ BEGIN_MESSAGE_MAP(CStructuredStorageDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_CfgGuide, &CStructuredStorageDlg::OnItemChangedCfgGuide)
+	ON_BN_CLICKED(IDOK, &CStructuredStorageDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -74,14 +78,25 @@ BOOL CStructuredStorageDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	//读取Stg
-	LPSTORAGE pStgRoot = nullptr;
-	HRESULT hr = ::StgOpenStorage(g_GobalVariable.szStgFilename, nullptr,
-		STGM_READ | STGM_SHARE_EXCLUSIVE/*拒绝其他程序读写*/, nullptr, 0, &pStgRoot);
-	StgNormalCfg stDefaultCfg;//默认常规配置
-	if (S_OK == hr) {
 
-	}
+	//test
+	/*TCHAR* szPath = _T("C:\\Users\\dmxjMao\\Desktop\\屏幕墙文档\\abc");
+	LPSTORAGE pStgRoot = nullptr;
+	HRESULT hr = ::StgCreateDocfile(szPath,
+		STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE,
+		0, &pStgRoot);
+
+	TCHAR* szStreamName = _T("常规");
+	LPSTREAM pStream = NULL;
+	hr = pStgRoot->CreateStream(szStreamName,
+		STGM_CREATE | STGM_READWRITE |
+		STGM_SHARE_EXCLUSIVE,
+		0, 0, &pStream);
+
+	pStream->Release();
+	pStgRoot->Release();*/
+
+
 
 	GetClientRect(&m_rcClient);
 	int x = m_rcClient.left, y = m_rcClient.top;
@@ -113,13 +128,9 @@ BOOL CStructuredStorageDlg::OnInitDialog()
 	for (auto pDlg : m_vecCfgDlgPtr) {
 		pDlg->SetWindowPos(nullptr, x, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE);
 	}
-	//m_cfgNormalDlg->SetWindowPos(nullptr, x, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE);
-	//m_cfgRevisionDlg->SetWindowPos(nullptr, x, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE);
-	//m_cfgSaveDlg->SetWindowPos(nullptr, x, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE);
-	//m_cfgCustomDlg->SetWindowPos(nullptr, x, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE);
 
 	////初始显示常规配置
-	m_cfgNormalDlg->SetCfg(stDefaultCfg);
+	//m_cfgNormalDlg->SetCfg(stDefaultCfg);
 	m_cfgNormalDlg->ShowWindow(SW_NORMAL);
 	m_cfgRevisionDlg->ShowWindow(SW_HIDE);
 	m_cfgSaveDlg->ShowWindow(SW_HIDE);
@@ -182,4 +193,15 @@ void CStructuredStorageDlg::OnItemChangedCfgGuide(NMHDR *pNMHDR, LRESULT *pResul
 	}
 
 	*pResult = 0;
+}
+
+
+void CStructuredStorageDlg::OnBnClickedOk()
+{
+	for (auto pDlg : m_vecCfgDlgPtr) {
+		IStgOperator* pStg = dynamic_cast<IStgOperator*>(pDlg);
+		pStg->SetStgCfgs();	
+	}
+
+	CDialogEx::OnOK();
 }

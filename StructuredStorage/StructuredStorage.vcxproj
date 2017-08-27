@@ -184,7 +184,11 @@
   <ItemGroup>
     <ClInclude Include="CfgCustomDlg.h" />
     <ClInclude Include="CfgNormalDlg.h" />
+    <ClInclude Include="CfgRevisionAutoAmendDlg.h" />
+    <ClInclude Include="CfgRevisionAutoAmendOperatorDlg.h" />
     <ClInclude Include="CfgRevisionDlg.h" />
+    <ClInclude Include="CfgRevisionStyle.h" />
+    <ClInclude Include="CfgRevisonAutoAmendAutoAmendDlg.h" />
     <ClInclude Include="CfgSaveDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -197,7 +201,11 @@
   <ItemGroup>
     <ClCompile Include="CfgCustomDlg.cpp" />
     <ClCompile Include="CfgNormalDlg.cpp" />
+    <ClCompile Include="CfgRevisionAutoAmendDlg.cpp" />
+    <ClCompile Include="CfgRevisionAutoAmendOperatorDlg.cpp" />
     <ClCompile Include="CfgRevisionDlg.cpp" />
+    <ClCompile Include="CfgRevisionStyle.cpp" />
+    <ClCompile Include="CfgRevisonAutoAmendAutoAmendDlg.cpp" />
     <ClCompile Include="CfgSaveDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

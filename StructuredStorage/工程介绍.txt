@@ -31,3 +31,17 @@ demo要做到：
  设计stg
  将所有配置看成一份“复合文档”
  
+
+
+ class CStgCfgOperator
+ {
+ public:
+	HRESULT OpenFile(tchar* name, IStorage**);//打开配置复合文档
+	//bool IsDefault();
+	//HRESULT OpenCfg(StgDetailedCfgs, IStorage**);//根据详细配置枚举，打开相应存储对象或流
+	HRESULT OpenCfg(StgDetailedCfgs, IStream**);
+
+
+private:
+	//bool bDefault;//是否使用默认配置
+ };
