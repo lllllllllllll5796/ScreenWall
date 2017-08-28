@@ -6,7 +6,7 @@
 //struct StgNormalCfg;
 // CCfgNormalDlg dialog
 
-class CCfgNormalDlg : public CDialogEx, public IStgOperator
+class CCfgNormalDlg : public CDialogEx, public IStgCfgOperator
 {
 	DECLARE_DYNAMIC(CCfgNormalDlg)
 
@@ -28,9 +28,9 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//StgNormalCfg* m_pCfg;
-	StgNormalCfg m_cfg;
-	bool m_bDirty = false;
-	LPSTREAM m_pStream = nullptr;
+	//StgNormalCfg m_cfg;
+	//bool m_bDirty = false;
+	//LPSTREAM m_pStream = nullptr;
 
 	DECLARE_MESSAGE_MAP()
 public:

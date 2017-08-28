@@ -47,8 +47,19 @@ BOOL CCfgSaveDlg::OnInitDialog()
 	for (int i = 0; i < len; ++i) {
 		m_cbo1.InsertString(i, strSaveTypes[i]);
 	}
-	m_cbo1.SetCurSel(StgSaveSaveType_Docx);
+	m_cbo1.SetCurSel(0);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+
+HRESULT CCfgSaveDlg::GetStgCfgs()
+{
+	return S_OK;
+}
+
+HRESULT CCfgSaveDlg::SetStgCfgs()
+{
+	return S_OK;
 }

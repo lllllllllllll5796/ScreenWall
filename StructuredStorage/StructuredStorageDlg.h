@@ -38,9 +38,8 @@ protected:
 	CCfgRevisionDlg* m_cfgRevisionDlg;
 	CCfgSaveDlg* m_cfgSaveDlg;
 	CCfgCustomDlg* m_cfgCustomDlg;
-	std::vector<CDialog*> m_vecCfgDlgPtr; /*= {//编译器还不知道它们是继承自CDialog的
-		m_cfgNormalDlg, m_cfgRevisionDlg, m_cfgSaveDlg, m_cfgCustomDlg };*/ 
-	//CSSFile* m_ssFile;
+	std::vector<CDialog*> m_vecCfgDlgPtr;
+	CSSFile* m_ssFile;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();

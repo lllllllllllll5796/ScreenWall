@@ -4,7 +4,7 @@
 
 // CCfgRevisionDlg dialog
 
-class CCfgRevisionDlg : public CDialogEx, public IStgOperator
+class CCfgRevisionDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CCfgRevisionDlg)
 
@@ -29,7 +29,7 @@ protected:
 	CComboBox m_cbo1;
 	CButton m_ck1;
 	CButton m_ch2;
-	StgRevision m_cfg;
+	StgRevisionCfg m_cfg;
 	LPSTREAM m_pStream = nullptr;
 	bool m_bDirty = false;
 

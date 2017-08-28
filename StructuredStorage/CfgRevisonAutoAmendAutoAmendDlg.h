@@ -3,7 +3,7 @@
 
 // CCfgRevisonAutoAmendAutoAmendDlg dialog
 
-class CCfgRevisonAutoAmendAutoAmendDlg : public CDialogEx, public IStgOperator
+class CCfgRevisonAutoAmendAutoAmendDlg : public CDialogEx, public IStgCfgOperator
 {
 	DECLARE_DYNAMIC(CCfgRevisonAutoAmendAutoAmendDlg)
 
@@ -23,7 +23,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 
-	StgRevisionAutoAmend_AutoAmend m_cfg;
+	StgRevisionCfg_AutoAmend m_cfg;
 	LPSTREAM m_pStream = false;
 	bool m_bDirty = false;
 };

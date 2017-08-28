@@ -1,10 +1,10 @@
 #pragma once
 #include "afxwin.h"
-
+#include "Stg.h"
 
 // CCfgSaveDlg dialog
 
-class CCfgSaveDlg : public CDialogEx
+class CCfgSaveDlg : public CDialogEx, public IStgCfgOperator
 {
 	DECLARE_DYNAMIC(CCfgSaveDlg)
 
@@ -23,6 +23,9 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
+	virtual HRESULT GetStgCfgs();
+	virtual HRESULT SetStgCfgs();
+
 protected:
 	CComboBox m_cbo1;
 };

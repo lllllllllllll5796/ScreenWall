@@ -38,7 +38,7 @@ CStructuredStorageDlg::CStructuredStorageDlg(CWnd* pParent /*=NULL*/)
 	m_vecCfgDlgPtr[StgCfgs_Save] = m_cfgSaveDlg;
 	m_vecCfgDlgPtr[StgCfgs_Custom] = m_cfgCustomDlg;
 
-	//m_ssFile = new CSSFile;
+	m_ssFile = new CSSFile;
 }
 
 CStructuredStorageDlg::~CStructuredStorageDlg()
@@ -46,7 +46,7 @@ CStructuredStorageDlg::~CStructuredStorageDlg()
 	for (auto pDlg : m_vecCfgDlgPtr) {
 		SAFE_DELETE(pDlg);//ÐéÎö¹¹°²È«
 	}
-	//SAFE_DELETE(m_ssFile);
+	SAFE_DELETE(m_ssFile);
 	//SAFE_DELETE(m_cfgNormalDlg);
 	//SAFE_DELETE(m_cfgRevisionDlg);
 	//SAFE_DELETE(m_cfgSaveDlg);
@@ -199,8 +199,8 @@ void CStructuredStorageDlg::OnItemChangedCfgGuide(NMHDR *pNMHDR, LRESULT *pResul
 void CStructuredStorageDlg::OnBnClickedOk()
 {
 	for (auto pDlg : m_vecCfgDlgPtr) {
-		IStgOperator* pStg = dynamic_cast<IStgOperator*>(pDlg);
-		pStg->SetStgCfgs();	
+		//IStgOperator* pStg = dynamic_cast<IStgOperator*>(pDlg);
+		//pStg->SetStgCfgs();	
 	}
 
 	CDialogEx::OnOK();

@@ -2,7 +2,7 @@
 #include "Stg.h"
 
 //stg下流的名字
-const TCHAR* g_StgStreamNames[] = { _T("常规"),
+const CString g_StgStreamNames[] = { _T("常规"),
 _T("校对_自动更正"),_T("校对_操作"), _T("校对"), _T("保存"),_T("自定义") };
 
 
@@ -20,97 +20,97 @@ _T("校对_自动更正"),_T("校对_操作"), _T("校对"), _T("保存"),_T("自定义") };
 //	swap(*this, rhs);
 //	return *this;
 //}
-StgNormalCfg& StgNormalCfg::operator=(StgNormalCfg&& rhs) noexcept{
-	swap(*this, rhs);
-	return *this;
-}
-
-inline void swap(StgNormalCfg& lhs, StgNormalCfg& rhs)
-{
-	using std::swap;
-	swap(lhs.bfloatToolbar, rhs.bfloatToolbar);
-	swap(lhs.bRealtimePreview, rhs.bRealtimePreview);
-	swap(lhs.emColorScheme, rhs.emColorScheme);
-	swap(lhs.emScreenTipStyle, rhs.emScreenTipStyle);
-	swap(lhs.strUsername, rhs.strUsername);
-	swap(lhs.strShortname, rhs.strShortname);
-	swap(lhs.bOpenEmailWhenInReadView, rhs.bOpenEmailWhenInReadView);
-}
+//StgNormalCfg& StgNormalCfg::operator=(StgNormalCfg&& rhs) noexcept{
+//	swap(*this, rhs);
+//	return *this;
+//}
+//
+//inline void swap(StgNormalCfg& lhs, StgNormalCfg& rhs)
+//{
+//	using std::swap;
+//	swap(lhs.bfloatToolbar, rhs.bfloatToolbar);
+//	swap(lhs.bRealtimePreview, rhs.bRealtimePreview);
+//	swap(lhs.emColorScheme, rhs.emColorScheme);
+//	swap(lhs.emScreenTipStyle, rhs.emScreenTipStyle);
+//	swap(lhs.strUsername, rhs.strUsername);
+//	swap(lhs.strShortname, rhs.strShortname);
+//	swap(lhs.bOpenEmailWhenInReadView, rhs.bOpenEmailWhenInReadView);
+//}
 
 
 //校对
-StgRevisionAutoAmend_AutoAmend& StgRevisionAutoAmend_AutoAmend::operator=(StgRevisionAutoAmend_AutoAmend&& rhs) noexcept {
-	swap(*this, rhs);
-	return *this;
-}
-
-inline void swap(StgRevisionAutoAmend_AutoAmend& lhs, StgRevisionAutoAmend_AutoAmend& rhs)
-{
-	using std::swap;
-	swap(lhs.bShowAutoAmendBtn, rhs.bShowAutoAmendBtn);
-	swap(lhs.bUpcaseFirst2Char, rhs.bUpcaseFirst2Char);
-	swap(lhs.bAmend3, rhs.bAmend3);
-	swap(lhs.bAutoReplace, rhs.bAutoReplace);
-	swap(lhs.strAutoRplace, rhs.strAutoRplace);
-}
-
-
-
-StgRevisionAutoAmend_Operator& StgRevisionAutoAmend_Operator::operator=(StgRevisionAutoAmend_Operator&& rhs) noexcept
-{
-	swap(*this, rhs);
-	return *this;
-}
-inline void swap(StgRevisionAutoAmend_Operator& lhs, StgRevisionAutoAmend_Operator& rhs)
-{
-	using std::swap;
-	swap(lhs.bAddOpToContextMenu, rhs.bAddOpToContextMenu);
-	swap(lhs.bsOpts, rhs.bsOpts);
-}
+//StgRevisionAutoAmend_AutoAmend& StgRevisionAutoAmend_AutoAmend::operator=(StgRevisionAutoAmend_AutoAmend&& rhs) noexcept {
+//	swap(*this, rhs);
+//	return *this;
+//}
+//
+//inline void swap(StgRevisionAutoAmend_AutoAmend& lhs, StgRevisionAutoAmend_AutoAmend& rhs)
+//{
+//	using std::swap;
+//	swap(lhs.bShowAutoAmendBtn, rhs.bShowAutoAmendBtn);
+//	swap(lhs.bUpcaseFirst2Char, rhs.bUpcaseFirst2Char);
+//	swap(lhs.bAmend3, rhs.bAmend3);
+//	swap(lhs.bAutoReplace, rhs.bAutoReplace);
+//	swap(lhs.strAutoRplace, rhs.strAutoRplace);
+//}
 
 
-StgRevisionStyle& StgRevisionStyle::operator=(StgRevisionStyle&& rhs) noexcept
-{
-	swap(*this, rhs);
-	return *this;
-}
-inline void swap(StgRevisionStyle& lhs, StgRevisionStyle& rhs)
-{
-	using std::swap;
-	swap(lhs.style, rhs.style);
-	swap(lhs.bsStyles, rhs.bsStyles);
-}
 
-StgRevision& StgRevision::operator=(StgRevision&& rhs) noexcept
-{
-	swap(*this, rhs);
-	return *this;
-}
-inline void swap(StgRevision& lhs, StgRevision& rhs)
-{
-	using std::swap;
-	swap(lhs.stAutoAmend, rhs.stAutoAmend);
-	swap(lhs.stOperator, rhs.stOperator);
-	swap(lhs.bCheckWhenInput, rhs.bCheckWhenInput);
-	swap(lhs.bUseContextCheck, rhs.bUseContextCheck);
-	swap(lhs.stStyle, rhs.stStyle);
-}
-
-
-//保存
-StgSave& StgSave::operator=(StgSave&& rhs) noexcept
-{
-	swap(*this, rhs);
-	return *this;
-}
-inline void swap(StgSave& lhs, StgSave& rhs)
-{
-	using std::swap;
-	swap(lhs.emSaveType, rhs.emSaveType);
-	swap(lhs.bAutoRecover, rhs.bAutoRecover);
-	swap(lhs.usRecoverTm, rhs.usRecoverTm);
-	swap(lhs.strRecoverFilePath, rhs.strRecoverFilePath);
-}
+//StgRevisionAutoAmend_Operator& StgRevisionAutoAmend_Operator::operator=(StgRevisionAutoAmend_Operator&& rhs) noexcept
+//{
+//	swap(*this, rhs);
+//	return *this;
+//}
+//inline void swap(StgRevisionAutoAmend_Operator& lhs, StgRevisionAutoAmend_Operator& rhs)
+//{
+//	using std::swap;
+//	swap(lhs.bAddOpToContextMenu, rhs.bAddOpToContextMenu);
+//	swap(lhs.bsOpts, rhs.bsOpts);
+//}
+//
+//
+//StgRevisionStyle& StgRevisionStyle::operator=(StgRevisionStyle&& rhs) noexcept
+//{
+//	swap(*this, rhs);
+//	return *this;
+//}
+//inline void swap(StgRevisionStyle& lhs, StgRevisionStyle& rhs)
+//{
+//	using std::swap;
+//	swap(lhs.style, rhs.style);
+//	swap(lhs.bsStyles, rhs.bsStyles);
+//}
+//
+//StgRevision& StgRevision::operator=(StgRevision&& rhs) noexcept
+//{
+//	swap(*this, rhs);
+//	return *this;
+//}
+//inline void swap(StgRevision& lhs, StgRevision& rhs)
+//{
+//	using std::swap;
+//	swap(lhs.stAutoAmend, rhs.stAutoAmend);
+//	swap(lhs.stOperator, rhs.stOperator);
+//	swap(lhs.bCheckWhenInput, rhs.bCheckWhenInput);
+//	swap(lhs.bUseContextCheck, rhs.bUseContextCheck);
+//	swap(lhs.stStyle, rhs.stStyle);
+//}
+//
+//
+////保存
+//StgSave& StgSave::operator=(StgSave&& rhs) noexcept
+//{
+//	swap(*this, rhs);
+//	return *this;
+//}
+//inline void swap(StgSave& lhs, StgSave& rhs)
+//{
+//	using std::swap;
+//	swap(lhs.emSaveType, rhs.emSaveType);
+//	swap(lhs.bAutoRecover, rhs.bAutoRecover);
+//	swap(lhs.usRecoverTm, rhs.usRecoverTm);
+//	swap(lhs.strRecoverFilePath, rhs.strRecoverFilePath);
+//}
 
 
 
@@ -155,7 +155,43 @@ bool CSSFile::OpenSSFile(const CString & filename, DWORD mode)
 
 	return true;
 }
+bool CSSFile::CreateStroage(const CString & name, LPSTORAGE pStorage, DWORD mode)
+{
+	ASSERT(m_pCurrentStg && m_bOpen);
 
+	//LPSTORAGE pStorage;
+	HRESULT hr = m_pCurrentStg->Stg->CreateStorage(name, mode, 0, 0, &pStorage);
+	//if (S_OK == hr) {
+
+	//}
+	return hr == S_OK;
+
+}
+
+bool CSSFile::OpenStroage(const CString & name, /*LPSTORAGE* pStorage, */DWORD mode)
+{
+	ASSERT(m_pCurrentStg && m_bOpen);
+
+	IStorage* pStg;
+	HRESULT hr = m_pCurrentStg->Stg->OpenStorage(name, NULL, mode, NULL, 0, &pStg);
+	if (hr == S_OK) {
+		m_pCurrentStg->ParentStg = m_pCurrentStg;
+		m_pCurrentStg->Stg = pStg;
+	}
+	else {
+		if (CreateStroage(name, pStg)) {
+			StorageData* pSD = new StorageData;
+			pSD->ParentStg = m_pCurrentStg;
+			pSD->Stg = pStg;
+
+			m_pCurrentStg = pSD;
+
+			return true;
+		}
+
+	}
+	return false;
+}
 
 bool CSSFile::CreateStream(const CString & name, LPSTREAM* pStream, DWORD mode)
 {
@@ -166,8 +202,14 @@ bool CSSFile::CreateStream(const CString & name, LPSTREAM* pStream, DWORD mode)
 bool CSSFile::OpenStream(const CString & name, LPSTREAM* pStream, DWORD mode)
 {
 	ASSERT(m_pCurrentStg && m_bOpen);
+
 	HRESULT hr = m_pCurrentStg->Stg->OpenStream(name, 0, mode, 0, pStream);
-	return hr == S_OK;
+	if (S_OK != hr) {
+		if (!CreateStream(name, pStream)) {
+			return false;
+		}
+	}
+	return false;
 }
 
 

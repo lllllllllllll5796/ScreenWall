@@ -61,13 +61,13 @@
     <ClInclude Include="CfgRevisionAutoAmendDlg.h">
       <Filter>Cfg</Filter>
     </ClInclude>
-    <ClInclude Include="CfgRevisionAutoAmendOperatorDlg.h">
+    <ClInclude Include="CfgRevisionStyle.h">
       <Filter>Cfg</Filter>
     </ClInclude>
     <ClInclude Include="CfgRevisonAutoAmendAutoAmendDlg.h">
       <Filter>Cfg</Filter>
     </ClInclude>
-    <ClInclude Include="CfgRevisionStyle.h">
+    <ClInclude Include="CfgRevisionAutoAmendOperatorDlg.h">
       <Filter>Cfg</Filter>
     </ClInclude>
   </ItemGroup>
@@ -102,13 +102,13 @@
     <ClCompile Include="CfgRevisionAutoAmendDlg.cpp">
       <Filter>Cfg</Filter>
     </ClCompile>
-    <ClCompile Include="CfgRevisionAutoAmendOperatorDlg.cpp">
+    <ClCompile Include="CfgRevisionStyle.cpp">
       <Filter>Cfg</Filter>
     </ClCompile>
     <ClCompile Include="CfgRevisonAutoAmendAutoAmendDlg.cpp">
       <Filter>Cfg</Filter>
     </ClCompile>
-    <ClCompile Include="CfgRevisionStyle.cpp">
+    <ClCompile Include="CfgRevisionAutoAmendOperatorDlg.cpp">
       <Filter>Cfg</Filter>
     </ClCompile>
   </ItemGroup>

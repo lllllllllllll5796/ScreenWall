@@ -8,13 +8,13 @@
 
 CGobalVariable::CGobalVariable()
 {
-	m_ssFile = new CSSFile;
+	//m_ssFile = new CSSFile;
 }
 
 CGobalVariable::~CGobalVariable()
 {
 	//pStgRoot->Release();
-	SAFE_DELETE(m_ssFile);
+	//SAFE_DELETE(m_ssFile);
 }
 
 
@@ -30,26 +30,26 @@ bool CGobalVariable::Init()
 	//TCHAR szStgFilename[MAX_PATH];
 	//_tcscpy_s(szStgFilename, szExePath);
 	//_tcscat_s(szStgFilename, pStgFilename);
-	CString strFilename(szExePath);
-	strFilename += _T("StructuredStorage");
+	//CString strFilename(szExePath);
+	//strFilename += _T("StructuredStorage");
 
-	if(!m_ssFile->OpenSSFile(strFilename)) {
-		if(!m_ssFile->CreateSSFile(strFilename)) {
-			TRACE(_T("CGobalVariable::Init : m_ssFile->CreateSSFile Failed !"));
-			return false;
-		}
-		//else {
-		//	//创建流
-		//	for (int i = 0; i < StgDetailedCfgs_Buff; ++i) {
-		//		CString strStreamName(g_StgStreamNames[i]);
-		//		if (!m_ssFile->CreateStream(strStreamName)) {
-		//			TRACE(_T("CGobalVariable::Init : m_ssFile->CreateStream Failed !"));
-		//			break;
-		//		}
+	//if(!m_ssFile->OpenSSFile(strFilename)) {
+	//	if(!m_ssFile->CreateSSFile(strFilename)) {
+	//		TRACE(_T("CGobalVariable::Init : m_ssFile->CreateSSFile Failed !"));
+	//		return false;
+	//	}
+	//	//else {
+	//	//	//创建流
+	//	//	for (int i = 0; i < StgDetailedCfgs_Buff; ++i) {
+	//	//		CString strStreamName(g_StgStreamNames[i]);
+	//	//		if (!m_ssFile->CreateStream(strStreamName)) {
+	//	//			TRACE(_T("CGobalVariable::Init : m_ssFile->CreateStream Failed !"));
+	//	//			break;
+	//	//		}
 
-		//	}
-		//}
-	}
+	//	//	}
+	//	//}
+	//}
 	//HRESULT hr = ::StgOpenStorage(szStgFilename, nullptr,
 	//	STGM_READ | STGM_SHARE_EXCLUSIVE/*拒绝其他程序读写*/, nullptr, 0, &pStgRoot);
 	//if (FAILED(hr)) {

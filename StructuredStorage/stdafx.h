@@ -63,7 +63,7 @@ public:
 	TCHAR szExePath[MAX_PATH]; //程序所在目录
 	//TCHAR szStgFilename[MAX_PATH]; //结构化存储文件
 	//LPSTORAGE pStgRoot = nullptr;//根存储
-	CSSFile* m_ssFile;
+	//CSSFile* m_ssFile;
 
 public:
 	CGobalVariable();

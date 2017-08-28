@@ -5,7 +5,7 @@
 
 // CCfgRevisionAutoAmendOperatorDlg dialog
 
-class CCfgRevisionAutoAmendOperatorDlg : public CDialogEx,public IStgOperator
+class CCfgRevisionAutoAmendOperatorDlg : public CDialogEx,public IStgCfgOperator
 {
 	DECLARE_DYNAMIC(CCfgRevisionAutoAmendOperatorDlg)
 
@@ -28,7 +28,7 @@ protected:
 	CCheckListBox m_li1;
 	CButton m_ch1;
 
-	StgRevisionAutoAmend_Operator m_cfg;
+	StgRevisionCfg_Operator m_cfg;
 	LPSTREAM m_pStream = nullptr;
 	bool m_bDirty = false;
 
