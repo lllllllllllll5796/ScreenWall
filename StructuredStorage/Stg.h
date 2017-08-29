@@ -2,70 +2,56 @@
 #include <bitset>
 //#include <string>
 //#include <vector>
+#include <list>
 
 /*
 配置结构体都用“移动”
 operator= 和 swap后期采用模板
 */
 
+//enum StgCfgs {
+//	StgCfgs_Normal,
+//	StgCfgs_Revision,
+//	StgCfgs_Save,
+//	StgCfgs_Custom,
+//	StgCfgs_Buff
+//};
+
 //配置项
-enum StgCfgs {
-	StgCfgs_Normal,
-	StgCfgs_Revision,
-	StgCfgs_Save,
-	StgCfgs_Custom,
-	StgCfgs_Buff
+enum StgCfgEnum {
+	StgCfgEnumNormal,
+	StgCfgEnumRevision_AutoAmend,
+	StgCfgEnumRevision_Operator,
+	StgCfgEnumRevision,
+	StgCfgEnumSave,
+	StgCfgEnumCustom,
+	StgCfgEnumBuff
 };
-
-//详细配置项
-enum StgDetailedCfgs {
-	StgDetailedCfgs_Normal,
-	StgDetailedCfgs_Revision_AutoAmend,
-	StgDetailedCfgs_Revision_Operator,
-	StgDetailedCfgs_Revision,
-	StgDetailedCfgs_Save,
-	StgDetailedCfgs_Custom,
-	StgDetailedCfgs_Buff
-};
-extern const CString g_StgStreamNames[];//const要加
-
-
-//常规
-//enum StgNormalColorScheme {
-//	StgNormalColorScheme_Red,
-//	StgNormalColorScheme_Green,
-//	StgNormalColorScheme_Blue,
-//	StgNormalColorScheme_Buff
-//};
-//const CString StgNormalColorScheme
-
-//enum StgNormalScreenTipStyle {
-//	StgNormalScreenTipStyle_1,
-//	StgNormalScreenTipStyle_2,
-//	StgNormalScreenTipStyle_3,
-//	StgNormalScreenTipStyle_Buff
-//};
+//extern const CString g_StgStreamNames[];//const要加
 
 //结构基类
-struct StgCfg{};
+struct StgCfg{
+	int nSize;//结构体大小
+	StgCfg(int sz) : nSize(sz) {}
+};
 
 struct StgNormalCfg : StgCfg{
 	bool bfloatToolbar = true;
 	bool bRealtimePreview = true;
-	/*StgNormalColorScheme  emColorScheme = StgNormalColorScheme_Green;
-	StgNormalScreenTipStyle emScreenTipStyle = StgNormalScreenTipStyle_1;*/
+	bool bOpenEmailWhenInReadView = false;
 	int nColorScheme = 1;
 	int nScreenTipStyle = 0;
-	CString strUsername;
-	CString strShortname;
-	bool bOpenEmailWhenInReadView = false;
+	LPTSTR pszUsername;
+	int cchUsername = 0;
+	LPTSTR pszShortname;
+	int cchShortname = 0;	
 
 	//拷贝构造
 	//拷贝赋值
 	//移动构造
 	//移动赋值
 	//析构
-	//StgNormalCfg() {}
+	StgNormalCfg(int sz) : StgCfg(sz){}
 	//StgNormalCfg::StgNormalCfg(StgNormalCfg&& rhs) noexcept;
 	//StgNormalCfg& operator=(const StgNormalCfg& rhs);
 	//StgNormalCfg& operator=(StgNormalCfg rhs);
@@ -80,79 +66,41 @@ struct StgRevisionCfg_AutoAmend : StgCfg {
 	bool bShowAutoAmendBtn = false;
 	bool bUpcaseFirst2Char = false;
 	bool bAmend3 = false;
-	bool bAutoReplace = false;//勾选了后面字段才有效
-	CString strAutoRplace;//格式：acc-abc;你哈-你好;
+	bool bAutoReplace = false;//勾选了后面的字段才有效
+	LPTSTR pszAutoReplace;//格式：acc-abc;你哈-你好;
+	int cchAutoReplace = 0;
 	
-	//StgRevisionAutoAmend_AutoAmend& operator=(StgRevisionAutoAmend_AutoAmend&& rhs) noexcept;
-	//friend void swap(StgRevisionAutoAmend_AutoAmend& lhs, StgRevisionAutoAmend_AutoAmend& rhs);
+	StgRevisionCfg_AutoAmend(int sz) : StgCfg(sz) {}
 };
 
 struct StgRevisionCfg_Operator : StgCfg {
 	bool bAddOpToContextMenu = false;
-	std::bitset<8> bsOpts;
+	//std::bitset<8> bsOpts;
+	char szOpts[8] = { 0 };
 
-
-	//StgRevisionAutoAmend_Operator& operator=(StgRevisionAutoAmend_Operator&& rhs) noexcept;
-	//friend void swap(StgRevisionAutoAmend_Operator& lhs, StgRevisionAutoAmend_Operator& rhs);
+	StgRevisionCfg_Operator(int sz) : StgCfg(sz) {}
 };
 
-//enum StgRevisionStyleEnum {
-//	StgRevisionStyle_Normal,
-//	StgRevisionStyle_Custom,
-//	StgRevisionStyle_Buff
-//};
-//struct StgRevisionStyle {
-//	StgRevisionStyleEnum style = StgRevisionStyle_Normal;
-//	std::bitset<10> bsStyles;
-//
-//	StgRevisionStyle() { bsStyles.set(); }
-//	//StgRevisionStyle& operator=(StgRevisionStyle&& rhs) noexcept;
-//	//friend void swap(StgRevisionStyle& lhs, StgRevisionStyle& rhs);
-//
-//};
-
 struct StgRevisionCfg : StgCfg {
-	//StgRevisionCfg_AutoAmend stAutoAmend;
-	//StgRevisionAutoAmend_Operator stOperator;
 	bool bCheckWhenInput = false;
 	bool bUseContextCheck = false;
+	char szStyles[10] = { 0 };
 	int nStyle = 0;
-	//StgRevisionStyle stStyle;
-	std::bitset<10> bsStyles;
+	//std::bitset<10> bsStyles;
 
-	StgRevisionCfg() { bsStyles.set(); }
-	//拷贝构造
-	//拷贝赋值
-	//移动构造
-	//移动赋值
-	//析构
-	//StgNormalCfg() {}
-	//StgNormalCfg::StgNormalCfg(StgNormalCfg&& rhs) noexcept;
-	//StgNormalCfg& operator=(const StgNormalCfg& rhs);
-	//StgNormalCfg& operator=(StgNormalCfg rhs);
-	//StgRevision& operator=(StgRevision&& rhs) noexcept;
-	//friend void swap(StgRevision& lhs, StgRevision& rhs);
+	StgRevisionCfg(int sz) : StgCfg(sz) { /*bsStyles.set();*/ }
 };
 
 
 //保存
-//enum StgSaveSaveType{
-//	StgSaveSaveType_Docx,
-//	StgSaveSaveType_Doc,
-//	StgSaveSaveType_Html,
-//	StgSaveSaveType_Txt,
-//	StgSaveSaveType_Xml,
-//	StgSaveSaveType_Buff
-//};
 struct StgSaveCfg : StgCfg {
-	//StgSaveSaveType emSaveType = StgSaveSaveType_Docx;
 	int nSaveType = 0;
-	bool bAutoRecover = true;
 	int nRecoverTime = 10;
-	CString strRecoverFilePath = _T("C:\\Users\\dmxjMao\\Documents\\");
+	bool bAutoRecover = true;
+	LPTSTR strRecoverFilePath;
+	int cchRecoverFilePath = 0;
 
-	//StgSave& operator=(StgSave&& rhs) noexcept;
-	//friend void swap(StgSave& lhs, StgSave& rhs);
+	StgSaveCfg(int sz) : StgCfg(sz) {}
 };
 
 
@@ -176,11 +124,29 @@ protected:
 //
 class CSSFile {
 public:
-	struct StorageData
-	{
-		IStorage *Stg = nullptr;
-		StorageData *ParentStg = nullptr;
+	//子存储名字、类型
+	enum TYPE { Storage, Stream };
+	//union INFO {
+	//	LPSTORAGE pStorage;//type=Storage
+	//	StgCfg* pCfg;//type=Stream
+	//};
+	struct Node {
+		CString name, parentName;
+		TYPE type;//节点类型
+		//INFO info;
+		LPSTORAGE pStorage;//type=Storage
+		StgCfg* pCfg;//type=Stream
+		StgCfgEnum emCfg;//配置类型
+		Node(CString nm, CString fnm, TYPE t, StgCfg* p = nullptr, StgCfgEnum em = StgCfgEnumBuff) :
+			name(nm), parentName(fnm), type(t), pCfg(p), emCfg(em) {}
 	};
+
+	CSSFile();
+	//struct StorageData
+	//{
+	//	IStorage *Stg = nullptr;
+	//	StorageData *ParentStg = nullptr;
+	//};
 	//打开复合文档
 	bool OpenSSFile(const CString & filename, DWORD mode = STGM_READWRITE | STGM_SHARE_EXCLUSIVE);
 	//打开存储对象
@@ -203,12 +169,20 @@ protected:
 	IStorage * GetRootStorage() const;
 	//文档是否打开
 	bool IsOpen() const;
+	//创建默认配置
+	//bool CreateDefaultCfg();
+	//释放打开的存储对象
+	void ReleaseStorage();
+
+private:
+	//查找父节点存储对象
+	Node& FindParentNode(std::list<Node>::iterator it/*当前节点*/, const CString& name/*父节点名*/);
 
 protected:
 	bool m_bOpen = false;
-	CString m_strFilename;
-	IStorage *m_pRootStg = nullptr;
-	StorageData *m_pCurrentStg = nullptr;
-
-
+	//CString m_strFilename;
+	LPSTORAGE m_pRootStg = nullptr;
+	//StorageData *m_pCurrentStg = nullptr;
+	std::list<Node> m_liNode;
+	//const std::vector  配置可能同名
 };

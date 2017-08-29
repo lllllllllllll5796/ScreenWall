@@ -32,13 +32,13 @@ CStructuredStorageDlg::CStructuredStorageDlg(CWnd* pParent /*=NULL*/)
 	m_cfgSaveDlg = new CCfgSaveDlg(this);
 	m_cfgCustomDlg = new CCfgCustomDlg(this);
 
-	m_vecCfgDlgPtr.resize(StgCfgs_Buff);
-	m_vecCfgDlgPtr[StgCfgs_Normal] = m_cfgNormalDlg;
-	m_vecCfgDlgPtr[StgCfgs_Revision] = m_cfgRevisionDlg;
-	m_vecCfgDlgPtr[StgCfgs_Save] = m_cfgSaveDlg;
-	m_vecCfgDlgPtr[StgCfgs_Custom] = m_cfgCustomDlg;
+	//m_vecCfgDlgPtr.resize(StgCfgs_Buff);
+	//m_vecCfgDlgPtr[StgCfgs_Normal] = m_cfgNormalDlg;
+	//m_vecCfgDlgPtr[StgCfgs_Revision] = m_cfgRevisionDlg;
+	//m_vecCfgDlgPtr[StgCfgs_Save] = m_cfgSaveDlg;
+	//m_vecCfgDlgPtr[StgCfgs_Custom] = m_cfgCustomDlg;
 
-	m_ssFile = new CSSFile;
+	//m_ssFile = new CSSFile;
 }
 
 CStructuredStorageDlg::~CStructuredStorageDlg()
@@ -46,7 +46,7 @@ CStructuredStorageDlg::~CStructuredStorageDlg()
 	for (auto pDlg : m_vecCfgDlgPtr) {
 		SAFE_DELETE(pDlg);//虚析构安全
 	}
-	SAFE_DELETE(m_ssFile);
+	//SAFE_DELETE(m_ssFile);
 	//SAFE_DELETE(m_cfgNormalDlg);
 	//SAFE_DELETE(m_cfgRevisionDlg);
 	//SAFE_DELETE(m_cfgSaveDlg);
@@ -114,7 +114,7 @@ BOOL CStructuredStorageDlg::OnInitDialog()
 	//m_lcCfgGuide.ModifyStyle
 	EnableWindowTheme(m_lcCfgGuide.GetSafeHwnd(), L"ListView", L"Explorer", NULL);
 	m_lcCfgGuide.SetWindowPos(nullptr, x, y, w / 5, h - 80, SWP_NOZORDER | SWP_NOACTIVATE);
-	m_lcCfgGuide.SetItemState(StgCfgs_Normal, LVIS_SELECTED, LVIS_SELECTED);
+	//m_lcCfgGuide.SetItemState(StgCfgs_Normal, LVIS_SELECTED, LVIS_SELECTED);
 
 	//创建配置对话框
 	m_cfgNormalDlg->Create(IDD_Cfg_Normal, this); //属性style=Child,Border=Thin
@@ -185,12 +185,12 @@ void CStructuredStorageDlg::OnItemChangedCfgGuide(NMHDR *pNMHDR, LRESULT *pResul
 	if (pDlg->GetSafeHwnd() == nullptr)
 		return;
 
-	for (int i = 0; i < StgCfgs_Buff;++i) {
-		if (i == nItem)
-			m_vecCfgDlgPtr[i]->ShowWindow(SW_NORMAL);
-		else
-			m_vecCfgDlgPtr[i]->ShowWindow(SW_HIDE);
-	}
+	//for (int i = 0; i < StgCfgs_Buff;++i) {
+	//	if (i == nItem)
+	//		m_vecCfgDlgPtr[i]->ShowWindow(SW_NORMAL);
+	//	else
+	//		m_vecCfgDlgPtr[i]->ShowWindow(SW_HIDE);
+	//}
 
 	*pResult = 0;
 }

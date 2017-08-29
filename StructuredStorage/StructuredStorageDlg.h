@@ -39,7 +39,7 @@ protected:
 	CCfgSaveDlg* m_cfgSaveDlg;
 	CCfgCustomDlg* m_cfgCustomDlg;
 	std::vector<CDialog*> m_vecCfgDlgPtr;
-	CSSFile* m_ssFile;
+	//CSSFile* m_ssFile;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();

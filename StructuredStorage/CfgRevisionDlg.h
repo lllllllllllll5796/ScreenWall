@@ -29,9 +29,9 @@ protected:
 	CComboBox m_cbo1;
 	CButton m_ck1;
 	CButton m_ch2;
-	StgRevisionCfg m_cfg;
-	LPSTREAM m_pStream = nullptr;
-	bool m_bDirty = false;
+	//StgRevisionCfg m_cfg;
+	//LPSTREAM m_pStream = nullptr;
+	//bool m_bDirty = false;
 
 public:
 	virtual BOOL OnInitDialog();

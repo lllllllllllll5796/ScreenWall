@@ -17,13 +17,13 @@ CCfgNormalDlg::CCfgNormalDlg(CWnd* pParent /*=NULL*/)
 {
 	//m_spCfg = std::make_shared<StgNormalCfg>();
 	//m_pCfg = new StgNormalCfg();
-	m_cfg = new StgNormalCfg;
+	//m_cfg = new StgNormalCfg;
 }
 
 CCfgNormalDlg::~CCfgNormalDlg()
 {
 	//SAFE_DELETE(m_pCfg);
-	m_pStream->Release();
+	//m_pStream->Release();
 }
 
 void CCfgNormalDlg::DoDataExchange(CDataExchange* pDX)
@@ -82,8 +82,8 @@ BOOL CCfgNormalDlg::OnInitDialog()
 	}
 	m_cbo_2.SetCurSel(cfg->nScreenTipStyle);
 
-	m_edt_2.SetWindowText(cfg->strUsername);
-	m_edt_3.SetWindowText(cfg->strShortname);
+	//m_edt_2.SetWindowText(cfg->strUsername);
+	//m_edt_3.SetWindowText(cfg->strShortname);
 
 	m_ck_3.SetCheck(cfg->bOpenEmailWhenInReadView);
 

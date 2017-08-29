@@ -23,7 +23,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 
-	StgRevisionCfg_AutoAmend m_cfg;
-	LPSTREAM m_pStream = false;
-	bool m_bDirty = false;
+	//StgRevisionCfg_AutoAmend m_cfg;
+	//LPSTREAM m_pStream = false;
+	//bool m_bDirty = false;
 };

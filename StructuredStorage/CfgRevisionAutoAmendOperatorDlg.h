@@ -28,9 +28,9 @@ protected:
 	CCheckListBox m_li1;
 	CButton m_ch1;
 
-	StgRevisionCfg_Operator m_cfg;
-	LPSTREAM m_pStream = nullptr;
-	bool m_bDirty = false;
+	//StgRevisionCfg_Operator m_cfg;
+	//LPSTREAM m_pStream = nullptr;
+	//bool m_bDirty = false;
 
 public:
 	virtual BOOL OnInitDialog();

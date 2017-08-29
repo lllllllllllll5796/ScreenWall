@@ -107,10 +107,12 @@ HRESULT CCfgRevisionDlg::GetStgCfgs()
 HRESULT CCfgRevisionDlg::SetStgCfgs()
 {
 	HRESULT hr = S_OK;
-	if (false == m_bDirty)
-		return hr;
+	//if (false == m_bDirty)
+	//	return hr;
 
-	hr = m_pStream->Write(&m_cfg, sizeof(m_cfg), 0);
+	//hr = m_pStream->Write(&m_cfg, sizeof(m_cfg), 0);
+
+	
 
 	return hr;
 }

@@ -6,6 +6,13 @@
 #include "StructuredStorage.h"
 #include "StructuredStorageDlg.h"
 
+#include "Stg.h"
+//#include <vector>
+//#include <list>
+//#include <hash_map>
+//using std::vector;
+//using std::list;
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -31,6 +38,9 @@ CStructuredStorageApp::CStructuredStorageApp()
 
 CStructuredStorageApp theApp;
 CGobalVariable g_GobalVariable;
+
+//读取配置线程
+unsigned int __stdcall ReadStgCfgThread(PVOID pv);
 
 // CStructuredStorageApp initialization
 //#include <map>
@@ -65,6 +75,10 @@ BOOL CStructuredStorageApp::InitInstance()
 	CWinApp::InitInstance();
 	if (false == g_GobalVariable.Init())
 		return FALSE;
+	//读取配置线程
+	unsigned int nThreadID(0);
+	HANDLE hThread = (HANDLE)_beginthreadex(nullptr, 0, ReadStgCfgThread, nullptr, 0, &nThreadID);
+	CloseHandle(hThread); hThread = nullptr;
 
 	// Create the shell manager, in case the dialog contains
 	// any shell tree view or shell list view controls.
@@ -116,3 +130,23 @@ BOOL CStructuredStorageApp::InitInstance()
 	return FALSE;
 }
 
+
+unsigned int __stdcall ReadStgCfgThread(PVOID pv)
+{
+	unsigned int nRet = 0;
+
+	CSSFile* pSSFile = new CSSFile;
+	CString strFilename = g_GobalVariable.szExePath;
+	strFilename += g_GobalVariable.strStgCfgname;//配置文件名
+	if (pSSFile->OpenSSFile(strFilename, STGM_READ | STGM_SHARE_EXCLUSIVE)) {
+		//读取配置
+		
+	}
+	else {
+		//g_GobalVariable.vecCfg就是默认配置
+	}
+
+	SAFE_DELETE(pSSFile);
+
+	return nRet;
+}
