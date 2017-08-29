@@ -2,6 +2,7 @@
 #include <bitset>
 //#include <string>
 //#include <vector>
+#include <list>
 
 /*
 配置结构体都用“移动”
@@ -96,20 +97,6 @@ struct StgRevisionCfg_Operator : StgCfg {
 	//friend void swap(StgRevisionAutoAmend_Operator& lhs, StgRevisionAutoAmend_Operator& rhs);
 };
 
-//enum StgRevisionStyleEnum {
-//	StgRevisionStyle_Normal,
-//	StgRevisionStyle_Custom,
-//	StgRevisionStyle_Buff
-//};
-//struct StgRevisionStyle {
-//	StgRevisionStyleEnum style = StgRevisionStyle_Normal;
-//	std::bitset<10> bsStyles;
-//
-//	StgRevisionStyle() { bsStyles.set(); }
-//	//StgRevisionStyle& operator=(StgRevisionStyle&& rhs) noexcept;
-//	//friend void swap(StgRevisionStyle& lhs, StgRevisionStyle& rhs);
-//
-//};
 
 struct StgRevisionCfg : StgCfg {
 	//StgRevisionCfg_AutoAmend stAutoAmend;
@@ -121,29 +108,9 @@ struct StgRevisionCfg : StgCfg {
 	std::bitset<10> bsStyles;
 
 	StgRevisionCfg() { bsStyles.set(); }
-	//拷贝构造
-	//拷贝赋值
-	//移动构造
-	//移动赋值
-	//析构
-	//StgNormalCfg() {}
-	//StgNormalCfg::StgNormalCfg(StgNormalCfg&& rhs) noexcept;
-	//StgNormalCfg& operator=(const StgNormalCfg& rhs);
-	//StgNormalCfg& operator=(StgNormalCfg rhs);
-	//StgRevision& operator=(StgRevision&& rhs) noexcept;
-	//friend void swap(StgRevision& lhs, StgRevision& rhs);
 };
 
 
-//保存
-//enum StgSaveSaveType{
-//	StgSaveSaveType_Docx,
-//	StgSaveSaveType_Doc,
-//	StgSaveSaveType_Html,
-//	StgSaveSaveType_Txt,
-//	StgSaveSaveType_Xml,
-//	StgSaveSaveType_Buff
-//};
 struct StgSaveCfg : StgCfg {
 	//StgSaveSaveType emSaveType = StgSaveSaveType_Docx;
 	int nSaveType = 0;
@@ -176,11 +143,28 @@ protected:
 //
 class CSSFile {
 public:
-	struct StorageData
-	{
-		IStorage *Stg = nullptr;
-		StorageData *ParentStg = nullptr;
+	//子存储名字、类型
+	enum TYPE { Storage, Stream };
+	//union INFO {
+	//	LPSTORAGE pStorage;//type=Storage
+	//	StgCfg* pCfg;//type=Stream
+	//};
+	struct Node {
+		CString name, parentName;
+		TYPE type;
+		//INFO info;
+		LPSTORAGE pStorage;//type=Storage
+		StgCfg* pCfg;//type=Stream
+		Node(CString nm, CString fnm, TYPE t, StgCfg* p = nullptr) :
+			name(nm), parentName(fnm), type(t), pCfg(p) {}
 	};
+
+	CSSFile();
+	//struct StorageData
+	//{
+	//	IStorage *Stg = nullptr;
+	//	StorageData *ParentStg = nullptr;
+	//};
 	//打开复合文档
 	bool OpenSSFile(const CString & filename, DWORD mode = STGM_READWRITE | STGM_SHARE_EXCLUSIVE);
 	//打开存储对象
@@ -203,12 +187,18 @@ protected:
 	IStorage * GetRootStorage() const;
 	//文档是否打开
 	bool IsOpen() const;
+	//创建默认配置
+	//bool CreateDefaultCfg();
+
+private:
+	//查找父节点存储对象
+	Node& FindParentNode(std::list<Node>::iterator it/*当前节点*/, const CString& name/*父节点名*/);
 
 protected:
 	bool m_bOpen = false;
-	CString m_strFilename;
-	IStorage *m_pRootStg = nullptr;
-	StorageData *m_pCurrentStg = nullptr;
-
+	//CString m_strFilename;
+	LPSTORAGE m_pRootStg = nullptr;
+	//StorageData *m_pCurrentStg = nullptr;
+	std::list<Node> m_liNode;
 
 };
