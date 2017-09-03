@@ -10,10 +10,10 @@ class CCfgRevisionAutoAmendOperatorDlg : public CDialogEx,public IStgCfgOperator
 	DECLARE_DYNAMIC(CCfgRevisionAutoAmendOperatorDlg)
 
 public:
-	CCfgRevisionAutoAmendOperatorDlg(CWnd* pParent = NULL);   // standard constructor
+	CCfgRevisionAutoAmendOperatorDlg(CSSFile* pSSFile, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CCfgRevisionAutoAmendOperatorDlg();
-	virtual HRESULT GetStgCfgs();
-	virtual HRESULT SetStgCfgs();
+	//virtual HRESULT GetStgCfgs();
+	//virtual HRESULT SetStgCfgs();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME

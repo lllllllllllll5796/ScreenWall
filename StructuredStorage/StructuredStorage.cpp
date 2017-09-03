@@ -39,8 +39,7 @@ CStructuredStorageApp::CStructuredStorageApp()
 CStructuredStorageApp theApp;
 CGobalVariable g_GobalVariable;
 
-//读取配置线程
-unsigned int __stdcall ReadStgCfgThread(PVOID pv);
+
 
 // CStructuredStorageApp initialization
 //#include <map>
@@ -57,10 +56,9 @@ enum TestEnum {
 
 BOOL CStructuredStorageApp::InitInstance()
 {
-	//size_t len = sizeof(TEST);
-
-	//size_t  len = sizeof(TestEnum);
-
+	//内存泄露
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_crtBreakAlloc = 226;
 
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
@@ -75,10 +73,6 @@ BOOL CStructuredStorageApp::InitInstance()
 	CWinApp::InitInstance();
 	if (false == g_GobalVariable.Init())
 		return FALSE;
-	//读取配置线程
-	unsigned int nThreadID(0);
-	HANDLE hThread = (HANDLE)_beginthreadex(nullptr, 0, ReadStgCfgThread, nullptr, 0, &nThreadID);
-	CloseHandle(hThread); hThread = nullptr;
 
 	// Create the shell manager, in case the dialog contains
 	// any shell tree view or shell list view controls.
@@ -131,22 +125,11 @@ BOOL CStructuredStorageApp::InitInstance()
 }
 
 
-unsigned int __stdcall ReadStgCfgThread(PVOID pv)
+
+
+int CStructuredStorageApp::ExitInstance()
 {
-	unsigned int nRet = 0;
+	_CrtDumpMemoryLeaks();
 
-	CSSFile* pSSFile = new CSSFile;
-	CString strFilename = g_GobalVariable.szExePath;
-	strFilename += g_GobalVariable.strStgCfgname;//配置文件名
-	if (pSSFile->OpenSSFile(strFilename, STGM_READ | STGM_SHARE_EXCLUSIVE)) {
-		//读取配置
-		
-	}
-	else {
-		//g_GobalVariable.vecCfg就是默认配置
-	}
-
-	SAFE_DELETE(pSSFile);
-
-	return nRet;
+	return CWinApp::ExitInstance();
 }

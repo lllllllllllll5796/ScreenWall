@@ -18,6 +18,9 @@
 #define new DEBUG_NEW
 #endif
 
+namespace {
+	enum CfgListCtrlItem { Normal, Revision, CfgListCtrlItem_Buff};
+};
 
 // CStructuredStorageDlg dialog
 
@@ -27,18 +30,20 @@ CStructuredStorageDlg::CStructuredStorageDlg(CWnd* pParent /*=NULL*/)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	
-	m_cfgNormalDlg = new CCfgNormalDlg(this);
-	m_cfgRevisionDlg = new CCfgRevisionDlg(this);
-	m_cfgSaveDlg = new CCfgSaveDlg(this);
-	m_cfgCustomDlg = new CCfgCustomDlg(this);
+	DWORD dwRet = WaitForSingleObject(g_GobalVariable.hEventReadStgCfg, INFINITE);
+	if(WAIT_OBJECT_0 == dwRet)
+		m_pSSFile = new CSSFile(g_GobalVariable.strStgCfgname);
+	m_cfgNormalDlg = new CCfgNormalDlg(m_pSSFile, this);
+	m_cfgRevisionDlg = new CCfgRevisionDlg(m_pSSFile, this);
+	//m_cfgSaveDlg = new CCfgSaveDlg(this);
+	//m_cfgCustomDlg = new CCfgCustomDlg(this);
 
-	//m_vecCfgDlgPtr.resize(StgCfgs_Buff);
-	//m_vecCfgDlgPtr[StgCfgs_Normal] = m_cfgNormalDlg;
-	//m_vecCfgDlgPtr[StgCfgs_Revision] = m_cfgRevisionDlg;
+	m_vecCfgDlgPtr.resize(CfgListCtrlItem_Buff);
+	m_vecCfgDlgPtr[Normal] = m_cfgNormalDlg;
+	m_vecCfgDlgPtr[Revision] = m_cfgRevisionDlg;
 	//m_vecCfgDlgPtr[StgCfgs_Save] = m_cfgSaveDlg;
 	//m_vecCfgDlgPtr[StgCfgs_Custom] = m_cfgCustomDlg;
 
-	//m_ssFile = new CSSFile;
 }
 
 CStructuredStorageDlg::~CStructuredStorageDlg()
@@ -46,11 +51,7 @@ CStructuredStorageDlg::~CStructuredStorageDlg()
 	for (auto pDlg : m_vecCfgDlgPtr) {
 		SAFE_DELETE(pDlg);//虚析构安全
 	}
-	//SAFE_DELETE(m_ssFile);
-	//SAFE_DELETE(m_cfgNormalDlg);
-	//SAFE_DELETE(m_cfgRevisionDlg);
-	//SAFE_DELETE(m_cfgSaveDlg);
-	//SAFE_DELETE(m_cfgCustomDlg);
+	SAFE_DELETE(m_pSSFile);
 }
 
 void CStructuredStorageDlg::DoDataExchange(CDataExchange* pDX)
@@ -78,32 +79,12 @@ BOOL CStructuredStorageDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-
-	//test
-	/*TCHAR* szPath = _T("C:\\Users\\dmxjMao\\Desktop\\屏幕墙文档\\abc");
-	LPSTORAGE pStgRoot = nullptr;
-	HRESULT hr = ::StgCreateDocfile(szPath,
-		STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE,
-		0, &pStgRoot);
-
-	TCHAR* szStreamName = _T("常规");
-	LPSTREAM pStream = NULL;
-	hr = pStgRoot->CreateStream(szStreamName,
-		STGM_CREATE | STGM_READWRITE |
-		STGM_SHARE_EXCLUSIVE,
-		0, 0, &pStream);
-
-	pStream->Release();
-	pStgRoot->Release();*/
-
-
-
 	GetClientRect(&m_rcClient);
 	int x = m_rcClient.left, y = m_rcClient.top;
 	int w = m_rcClient.Width(), h = m_rcClient.Height();
 
 	//左边CListCtrl
-	const CString cfgNames[] = { _T("常规"),_T("校对"),_T("保存"),_T("自定义") };
+	const CString cfgNames[] = { _T("常规"),_T("校对")/*,_T("保存"),_T("自定义") */};
 	int nCfgCnts = sizeof(cfgNames) / sizeof(cfgNames[0]);
 	for (int i = 0; i < nCfgCnts; ++i) {
 		m_lcCfgGuide.InsertItem(i,cfgNames[i]);
@@ -119,8 +100,8 @@ BOOL CStructuredStorageDlg::OnInitDialog()
 	//创建配置对话框
 	m_cfgNormalDlg->Create(IDD_Cfg_Normal, this); //属性style=Child,Border=Thin
 	m_cfgRevisionDlg->Create(IDD_Cfg_Revision, this);
-	m_cfgSaveDlg->Create(IDD_Cfg_Save, this);
-	m_cfgCustomDlg->Create(IDD_Cfg_Custom, this);
+	//m_cfgSaveDlg->Create(IDD_Cfg_Save, this);
+	//m_cfgCustomDlg->Create(IDD_Cfg_Custom, this);
 	
 	CRect rcTmp;//对话框布局
 	m_lcCfgGuide.GetClientRect(&rcTmp);
@@ -129,12 +110,11 @@ BOOL CStructuredStorageDlg::OnInitDialog()
 		pDlg->SetWindowPos(nullptr, x, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE);
 	}
 
-	////初始显示常规配置
-	//m_cfgNormalDlg->SetCfg(stDefaultCfg);
+	//初始显示常规配置
 	m_cfgNormalDlg->ShowWindow(SW_NORMAL);
-	m_cfgRevisionDlg->ShowWindow(SW_HIDE);
-	m_cfgSaveDlg->ShowWindow(SW_HIDE);
-	m_cfgCustomDlg->ShowWindow(SW_HIDE);
+	//m_cfgRevisionDlg->ShowWindow(SW_HIDE);
+	//m_cfgSaveDlg->ShowWindow(SW_HIDE);
+	//m_cfgCustomDlg->ShowWindow(SW_HIDE);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -182,15 +162,16 @@ void CStructuredStorageDlg::OnItemChangedCfgGuide(NMHDR *pNMHDR, LRESULT *pResul
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 	int nItem = pNMLV->iItem;
 	auto pDlg = m_vecCfgDlgPtr[nItem];
-	if (pDlg->GetSafeHwnd() == nullptr)
+	if (!pDlg || pDlg->GetSafeHwnd() == nullptr)
 		return;
 
-	//for (int i = 0; i < StgCfgs_Buff;++i) {
-	//	if (i == nItem)
-	//		m_vecCfgDlgPtr[i]->ShowWindow(SW_NORMAL);
-	//	else
-	//		m_vecCfgDlgPtr[i]->ShowWindow(SW_HIDE);
-	//}
+
+	for (int i = 0; i < CfgListCtrlItem_Buff; ++i) {
+		if (i == nItem)
+			m_vecCfgDlgPtr[i]->ShowWindow(SW_NORMAL);
+		else
+			m_vecCfgDlgPtr[i]->ShowWindow(SW_HIDE);
+	}
 
 	*pResult = 0;
 }

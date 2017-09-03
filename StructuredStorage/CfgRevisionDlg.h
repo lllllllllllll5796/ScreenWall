@@ -4,16 +4,16 @@
 
 // CCfgRevisionDlg dialog
 
-class CCfgRevisionDlg : public CDialogEx
+class CCfgRevisionDlg : public CDialogEx, IStgCfgOperator
 {
 	DECLARE_DYNAMIC(CCfgRevisionDlg)
 
 public:
-	CCfgRevisionDlg(CWnd* pParent = NULL);   // standard constructor
+	CCfgRevisionDlg(CSSFile* pSSFile, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CCfgRevisionDlg();
 
-	virtual HRESULT GetStgCfgs();
-	virtual HRESULT SetStgCfgs();
+	//virtual HRESULT GetStgCfgs();
+	//virtual HRESULT SetStgCfgs();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
@@ -28,8 +28,8 @@ protected:
 protected:
 	CComboBox m_cbo1;
 	CButton m_ck1;
-	CButton m_ch2;
-	//StgRevisionCfg m_cfg;
+	CButton m_ck2;
+	StgRevisionCfg* m_cfg;
 	//LPSTREAM m_pStream = nullptr;
 	//bool m_bDirty = false;
 

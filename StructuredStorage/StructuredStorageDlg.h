@@ -7,6 +7,7 @@
 #include <vector>
 
 
+class CSSFile;
 class CCfgNormalDlg;
 class CCfgRevisionDlg;
 class CCfgSaveDlg;
@@ -34,10 +35,11 @@ public:
 protected:
 	HICON m_hIcon;
 	CRect m_rcClient;
+	CSSFile* m_pSSFile;
 	CCfgNormalDlg* m_cfgNormalDlg;
 	CCfgRevisionDlg* m_cfgRevisionDlg;
-	CCfgSaveDlg* m_cfgSaveDlg;
-	CCfgCustomDlg* m_cfgCustomDlg;
+	//CCfgSaveDlg* m_cfgSaveDlg;
+	//CCfgCustomDlg* m_cfgCustomDlg;
 	std::vector<CDialog*> m_vecCfgDlgPtr;
 	//CSSFile* m_ssFile;
 

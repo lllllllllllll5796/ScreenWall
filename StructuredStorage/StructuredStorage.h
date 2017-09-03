@@ -26,6 +26,7 @@ public:
 // Implementation
 
 	DECLARE_MESSAGE_MAP()
+	virtual int ExitInstance();
 };
 
 extern CStructuredStorageApp theApp;

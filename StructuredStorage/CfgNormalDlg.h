@@ -11,7 +11,7 @@ class CCfgNormalDlg : public CDialogEx, public IStgCfgOperator
 	DECLARE_DYNAMIC(CCfgNormalDlg)
 
 public:
-	CCfgNormalDlg(CWnd* pParent = NULL);   // standard constructor
+	CCfgNormalDlg(CSSFile* pSSFile, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CCfgNormalDlg();
 	//inline void SetCfg(StgNormalCfg& cfg) { 
 	//	m_cfg = std::move(cfg);
@@ -27,7 +27,7 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//StgNormalCfg* m_pCfg;
+	StgNormalCfg* m_pCfg;
 	//StgNormalCfg m_cfg;
 	//bool m_bDirty = false;
 	//LPSTREAM m_pStream = nullptr;
@@ -35,8 +35,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
-	virtual HRESULT GetStgCfgs();
-	virtual HRESULT SetStgCfgs();
+	//virtual HRESULT GetStgCfgs();
+	//virtual HRESULT SetStgCfgs();
 
 protected:
 	CButton m_ck_1;

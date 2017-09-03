@@ -57,6 +57,12 @@
 #include "Utility.h"
 #include <vector>
 
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>  
+
+
+
 //class CSSFile;//复合文档
 
 struct StgCfg;//配置
@@ -66,8 +72,9 @@ public:
 	//TCHAR szStgFilename[MAX_PATH]; //结构化存储文件
 	//LPSTORAGE pStgRoot = nullptr;//根存储
 	//CSSFile* m_ssFile;
-	const CString strStgCfgname = _T("STGCFG");//配置文档名
+	CString strStgCfgname;//配置文档路径
 	std::vector<StgCfg*> vecCfg;//配置
+	HANDLE hEventReadStgCfg;//读取配置线程完成
 
 public:
 	CGobalVariable();
