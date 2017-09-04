@@ -49,9 +49,9 @@ bool CGobalVariable::Init()
 	
 	vecCfg.resize(StgCfgEnumBuff);
 	vecCfg[StgCfgEnumNormal] = new StgNormalCfg;
-	vecCfg[StgCfgEnumRevision] = new StgRevisionCfg;
-	vecCfg[StgCfgEnumRevision_AutoAmend] = new StgRevisionCfg_AutoAmend;
-	vecCfg[StgCfgEnumRevision_Operator] = new StgRevisionCfg_Operator;
+	//vecCfg[StgCfgEnumRevision] = new StgRevisionCfg;
+	//vecCfg[StgCfgEnumRevision_AutoAmend] = new StgRevisionCfg_AutoAmend;
+	//vecCfg[StgCfgEnumRevision_Operator] = new StgRevisionCfg_Operator;
 	//vecCfg[StgCfgEnumSave] = new StgSaveCfg(sizeof(StgSaveCfg));
 
 	//_CrtMemCheckpoint(&s2);

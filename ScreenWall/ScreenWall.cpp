@@ -11,12 +11,17 @@
 #include "ScreenWallDoc.h"
 #include "ScreenWallView.h"
 
+#include "SSFile.h"
+
 #include "LoginDlg.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
+//读取配置线程
+unsigned int __stdcall ReadStgCfgThread(PVOID pv);
 
 // CScreenWallApp
 
@@ -51,6 +56,11 @@ CGobalVariable g_GobalVariable; //全局变量
 
 BOOL CScreenWallApp::InitInstance()
 {
+	int* a = new int;
+	//内存泄露
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetBreakAlloc(144);
+	
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
@@ -69,7 +79,6 @@ BOOL CScreenWallApp::InitInstance()
 	//DoModal返回值是传给EndDialog的参数，EndDialog用于关闭Dialog
 	INT_PTR nRet = login.DoModal();
 	if (IDCANCEL == nRet) {
-		GdiplusShutdown(g_GobalVariable.gdiplusToken);
 		return FALSE; //关闭对话框
 	}	
 
@@ -151,6 +160,8 @@ protected:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+//	afx_msg void OnIDLogin();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -163,6 +174,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+//	ON_COMMAND(IDLogin, &CAboutDlg::OnIDLogin)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
@@ -199,6 +211,72 @@ void CScreenWallApp::SaveCustomState()
 
 int CScreenWallApp::ExitInstance()
 {
-	GdiplusShutdown(g_GobalVariable.gdiplusToken);
+	_CrtDumpMemoryLeaks();
+
 	return CWinAppEx::ExitInstance();
+}
+
+
+
+
+
+/*全局变量*/
+CGobalVariable::CGobalVariable()
+{
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	//GDI+初始化：使用之前，结束GDI+调用后GdiplusShutdown
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	hEventReadStgCfg = CreateEvent(nullptr, TRUE, FALSE, nullptr);//手动未触发
+
+}
+
+CGobalVariable::~CGobalVariable()
+{
+	GdiplusShutdown(gdiplusToken);
+	for (auto& p : vecCfg) {
+		SAFE_DELETE(p);
+	}
+	//_CrtDumpMemoryLeaks();
+}
+
+bool CGobalVariable::Init()
+{
+	bool bRet = true;
+	hIconApp = ::LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_Grid64px));
+
+	//程序所在目录
+	GetModuleFileName(AfxGetInstanceHandle(), szExePath, MAX_PATH);
+	TCHAR* pFind = _tcsrchr(szExePath, '\\');
+	szExePath[_tcslen(szExePath) - _tcslen(pFind) + 1] = '\0';
+
+	//读取配置
+	_tcscpy_s(szStgCfgPath, szExePath);
+	_tcscat_s(szStgCfgPath, _T("StgCfg.stg"));
+
+	vecCfg.resize(StgCfgEnum_Buff);
+	vecCfg[StgCfgEnum_LoginUser] = new StgCfgLoginUser;
+
+	unsigned int nThreadID(0);
+	HANDLE hThread = (HANDLE)_beginthreadex(nullptr, 0, ReadStgCfgThread, nullptr, 0, &nThreadID);
+	CloseHandle(hThread); hThread = nullptr;
+
+	return bRet;
+}
+
+
+
+unsigned int __stdcall ReadStgCfgThread(PVOID pv)
+{
+	unsigned int nRet = 0;
+
+	//打开配置文档，读取配置
+	CSSFile* pSSFile = new CSSFile(g_GobalVariable.szStgCfgPath);
+	nRet = pSSFile->GetAllCfg();
+	SAFE_DELETE(pSSFile);
+	//delete pSSFile; pSSFile = nullptr;
+	//用户点击配置菜单在等待
+	SetEvent(g_GobalVariable.hEventReadStgCfg);
+
+	return nRet;
 }

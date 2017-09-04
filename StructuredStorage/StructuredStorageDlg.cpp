@@ -95,7 +95,7 @@ BOOL CStructuredStorageDlg::OnInitDialog()
 	//m_lcCfgGuide.ModifyStyle
 	EnableWindowTheme(m_lcCfgGuide.GetSafeHwnd(), L"ListView", L"Explorer", NULL);
 	m_lcCfgGuide.SetWindowPos(nullptr, x, y, w / 5, h - 80, SWP_NOZORDER | SWP_NOACTIVATE);
-	//m_lcCfgGuide.SetItemState(StgCfgs_Normal, LVIS_SELECTED, LVIS_SELECTED);
+	m_lcCfgGuide.SetItemState(StgCfgEnumNormal, LVIS_SELECTED, LVIS_SELECTED);
 
 	//创建配置对话框
 	m_cfgNormalDlg->Create(IDD_Cfg_Normal, this); //属性style=Child,Border=Thin

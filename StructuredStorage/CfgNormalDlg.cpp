@@ -91,8 +91,8 @@ BOOL CCfgNormalDlg::OnInitDialog()
 	}
 	m_cbo_2.SetCurSel(cfg->nScreenTipStyle);
 
-	m_edt_2.SetWindowText(cfg->szUsername);
-	m_edt_3.SetWindowText(cfg->szShortname);
+	m_edt_2.SetWindowText(cfg->pszUsername);
+	//m_edt_3.SetWindowText(cfg->szShortname);
 
 	m_ck_3.SetCheck(cfg->bOpenEmailWhenInReadView);
 
@@ -152,17 +152,17 @@ void CCfgNormalDlg::OnChangeEdit2()
 	//m_bDirty = true; 一开始就收到
 	CString str;
 	m_edt_2.GetWindowText(str);
-	if (str != CString(m_pCfg->szUsername)) {
-		_tcscpy_s(m_pCfg->szUsername, str.GetBuffer());
-		//m_pCfg->szUsername = str;
+	//if (str != CString(m_pCfg->szUsername)) {
+		//_tcscpy_s(m_pCfg->szUsername, str.GetBuffer());
+		////m_pCfg->szUsername = str;
 
-		MACRO_StgWrite2Pos(StgNormalCfg, szUsername);
+		//MACRO_StgWrite2Pos(StgNormalCfg, szUsername);
 		//size_t pos = offsetof(StgNormalCfg, szUsername);
 		//LARGE_INTEGER li;
 		//li.QuadPart = pos;
 		//HRESULT hr = m_pStream->Seek(li, STREAM_SEEK_SET, nullptr);
 		//hr = m_pStream->Write(&m_pCfg->szUsername, sizeof(m_pCfg->szUsername), nullptr);
-	}
+	//}
 }
 
 

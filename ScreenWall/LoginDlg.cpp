@@ -5,6 +5,7 @@
 #include "ScreenWall.h"
 #include "LoginDlg.h"
 #include "afxdialogex.h"
+#include "ModifyPswdDlg.h" //修改密码
 
 
 // CLoginDlg dialog
@@ -31,6 +32,7 @@ void CLoginDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_BN_CLICKED(IDC_Login_ModifyPswd, &CLoginDlg::OnBnClickedLoginModifypswd)
+	ON_BN_CLICKED(IDLogin, &CLoginDlg::OnClickedIDLogin)
 END_MESSAGE_MAP()
 
 
@@ -45,14 +47,19 @@ BOOL CLoginDlg::OnInitDialog()
 	SetIcon(g_GobalVariable.hIconApp, FALSE);
 	//客户端区域
 	GetClientRect(&m_rcClient);
-	//登录图片
+	//登录图标
 	CStatic* pWndLoginPic = (CStatic*)GetDlgItem(IDC_Login_Pic);
 	pWndLoginPic->ModifyStyle(0, SS_ICON);//自动适应图片大小
 	pWndLoginPic->SetIcon(g_GobalVariable.hIconApp);
 
 	//修改密码按钮 
-	m_btnModifyPswd.LoadBitmaps(IDB_Pen2_24px, IDB_Pen2_24px_Focus, IDB_Pen2_24px_Focus);
+	m_btnModifyPswd.LoadBitmaps(IDB_Pen2_24px); //只能bmp，风格owndraw
 	m_btnModifyPswd.SizeToContent();
+
+	//tooltip
+	m_tip.Create(this);
+	m_tip.AddTool(&m_btnModifyPswd, _T("修改密码"));
+	m_tip.SetDelayTime(TTDT_INITIAL, 100);//100ms显示
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // EXCEPTION: OCX Property Pages should return FALSE
@@ -76,7 +83,11 @@ void CLoginDlg::OnPaint()
 	//gh.FillRectangle(&bgBrush, rc);
 
 	//渐变区
-	Rect rcWelcome(x, y, w, h/4);
+	CRect rcLoginGroup; //"登录设置"控件位置
+	GetDlgItem(IDC_sts_LoginGroup)->GetWindowRect(&rcLoginGroup); //屏幕坐标
+	ScreenToClient(&rcLoginGroup);
+	
+	Rect rcWelcome(x, y, w, /*h/4*/rcLoginGroup.top - 2);
 	LinearGradientBrush bgBrush(rcWelcome,
 		Color(216, 254, 233), Color(255, 255, 255),
 		LinearGradientModeVertical);
@@ -105,18 +116,32 @@ void CLoginDlg::OnPaint()
 	gh.DrawLine(&p, 0, rcWelcome.GetBottom(), m_rcClient.right, rcWelcome.GetBottom());
 
 	//布局公告栏
-	y = rcWelcome.GetBottom() + 2;
-	CRect rcLoginGroup; //"登录设置"控件位置
-	GetDlgItem(IDC_sts_LoginGroup)->GetWindowRect(&rcLoginGroup); //屏幕坐标
-	ScreenToClient(&rcLoginGroup);
-	CRect rcNotice(rcLoginGroup.left, y, rcLoginGroup.right, rcLoginGroup.top);
-	GetDlgItem(IDC_sts_Notice)->MoveWindow(&rcNotice);
-
+	//y = rcWelcome.GetBottom() + 2;
+	//CRect rcLoginGroup; //"登录设置"控件位置
+	//GetDlgItem(IDC_sts_LoginGroup)->GetWindowRect(&rcLoginGroup); //屏幕坐标
+	//ScreenToClient(&rcLoginGroup);
+	//CRect rcNotice(rcLoginGroup.left, y, rcLoginGroup.right, rcLoginGroup.top);
+	//GetDlgItem(IDC_sts_Notice)->MoveWindow(&rcNotice);
+	GetDlgItem(IDC_sts_Notice)->ShowWindow(SW_HIDE);
 }
 
 
 void CLoginDlg::OnBnClickedLoginModifypswd()
 {
-	//
-	AfxMessageBox(_T("修改密码"));
+	CModifyPswdDlg dlg;
+	dlg.DoModal();
+}
+
+
+void CLoginDlg::OnClickedIDLogin()
+{
+	AfxMessageBox(_T("登录ss"));
+}
+
+
+BOOL CLoginDlg::PreTranslateMessage(MSG* pMsg)
+{
+	m_tip.RelayEvent(pMsg);//将鼠标消息先转给m_tip
+
+	return CDialogEx::PreTranslateMessage(pMsg);
 }

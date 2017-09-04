@@ -54,18 +54,20 @@
 #pragma comment(lib,"Gdiplus.lib")
 using namespace Gdiplus;
 
-#include "resource.h"       // main symbols
+//#include "resource.h"       // main symbols
 
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h> 
+#endif // DEBUG
 
-class CGobalVariable {
-public:
-	HICON hIconApp;//标题栏图标
-	//GDI+初始化
-	ULONG_PTR gdiplusToken;
-	GdiplusStartupInput gdiplusStartupInput;
+#include <vector>
+#include <map>
+ 
+#define SAFE_DELETE(p)	\
+if((p)){	\
+delete (p); (p) = nullptr;	\
+}
+//typedef unsigned(__stdcall* PTHREAD_START)(void*);//__beginthreadex
 
-public:
-	CGobalVariable();
-	bool Init();
-};
-extern CGobalVariable g_GobalVariable; //全局变量 

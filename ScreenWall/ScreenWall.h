@@ -7,7 +7,7 @@
 	#error "include 'stdafx.h' before including this file for PCH"
 #endif
 
-//#include "resource.h"       // main symbols
+#include "resource.h"       // main symbols
 
 
 // CScreenWallApp:
@@ -37,3 +37,24 @@ public:
 };
 
 extern CScreenWallApp theApp;
+
+
+struct StgCfg;
+class CGobalVariable {
+public:
+	HICON hIconApp;//标题栏图标
+	//GDI+初始化
+	ULONG_PTR gdiplusToken;
+	GdiplusStartupInput gdiplusStartupInput;
+	TCHAR szExePath[MAX_PATH];//exe路径
+	TCHAR szStgCfgPath[MAX_PATH];//配置文档路径
+	std::vector<StgCfg*> vecCfg;//配置
+	HANDLE hEventReadStgCfg;//读取配置线程完成事件
+
+
+public:
+	CGobalVariable();
+	~CGobalVariable();
+	bool Init();
+};
+extern CGobalVariable g_GobalVariable; //全局变量

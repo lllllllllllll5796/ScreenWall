@@ -51,6 +51,38 @@ operator= 和 swap后期采用模板
 //}
 
 
+void StgNormalCfg::Read(LPSTREAM pStream/*, StgCfg*& pCfg*/)
+{
+	void* pv = this;
+	ULONG len = sizeof(StgNormalCfg);
+	
+	ULONG ulRead = 0;
+	HRESULT hr = pStream->Read(pv, len, &ulRead);
+	if (FAILED(hr)) return;
+	//StgNormalCfg* p = (StgNormalCfg*)pv;
+	//读取pszUsername
+	int pszLen = cchUsername / 2;//字符个数
+	pszUsername = new TCHAR[pszLen + 1];
+	pszUsername[pszLen] = 0;
+	hr = pStream->Read(pszUsername, cchUsername, &ulRead);
+	pStream->Release();
+}
+
+void StgNormalCfg::Write(LPSTREAM pStream)
+{
+	void* pv = this;
+	ULONG len = sizeof(StgNormalCfg);
+
+	ULONG ulWritten = 0;
+	pszUsername = _T("hello,stg!");
+	cchUsername = _tcslen(pszUsername) * 2;
+	HRESULT hr = pStream->Write(pv, len, &ulWritten);
+	if (FAILED(hr)) return;
+	
+	hr = pStream->Write(pszUsername, cchUsername, &ulWritten);
+	pStream->Release();
+}
+
 //
 CSSFile::CSSFile(CString& filename)
 {
@@ -71,13 +103,13 @@ CSSFile::CSSFile(CString& filename)
 	//m_vecStreamNode.resize(StgCfgEnumBuff);
 	auto& vec = g_GobalVariable.vecCfg;
 	m_vecStreamNode = { //位置链根据《配置结构图》 /*vector成员：配置枚举，流名称，默认配置结构，位置链（idx，名称，父节点指针）*/
-		StreamNode(StgCfgEnumNormal, _T("常规"), vec[StgCfgEnumNormal], vector<StorageNode>({ StorageNode(0, _T("root"), m_vecStorage[0]) })/*位置链*/),
+		StreamNode(StgCfgEnumNormal, _T("常规"), vec[StgCfgEnumNormal], vector<StorageNode>({ StorageNode(0, _T("root"), m_vecStorage[0]) })/*位置链*/)/*,
 		StreamNode(StgCfgEnumRevision, _T("校对"), vec[StgCfgEnumRevision], 
 			vector<StorageNode>({ StorageNode(0, _T("root"), m_vecStorage[0]), StorageNode(1,_T("校对"),m_vecStorage[0]) })),
 		StreamNode(StgCfgEnumRevision_AutoAmend,_T("自动更正"), vec[StgCfgEnumRevision_AutoAmend],
 			vector<StorageNode>({ StorageNode(0,_T("root"),m_vecStorage[0]), StorageNode(1,_T("校对"),m_vecStorage[0]), StorageNode(2,_T("自动更正"),m_vecStorage[1]) })),
 		StreamNode(StgCfgEnumRevision_Operator,_T("操作"), vec[StgCfgEnumRevision_Operator],
-			vector<StorageNode>({ StorageNode(0,_T("root"),m_vecStorage[0]), StorageNode(1,_T("校对"),m_vecStorage[0]), StorageNode(2,_T("自动更正"),m_vecStorage[1]) }))
+			vector<StorageNode>({ StorageNode(0,_T("root"),m_vecStorage[0]), StorageNode(1,_T("校对"),m_vecStorage[0]), StorageNode(2,_T("自动更正"),m_vecStorage[1]) }))*/
 	};
 
 
@@ -196,17 +228,21 @@ bool CSSFile::CreateSSFile(const CString & filename, DWORD mode)
 			return false;
 		}
 		else {
-			void* pv = nullptr;
-			ULONG len = 0;
-			TransformBase2Derived(node, pv, len);
+			//void* pv = nullptr;
+			//ULONG len = 0;
+			//TransformBase2Derived(node, pv, len);
+			
+			StgCfg* p = node.cfg;
+			p->Write(pStream);
+
 			//StgNormalCfg* p = (StgNormalCfg*)pv;
 			//p->bfloatToolbar = false;
 			//_tcscpy_s(p->szUsername, _T("mao你好"));
 			//p->szUsername = _T("mao你好！");
 			
-			ULONG ulWritten = 0;
-			hr = pStream->Write(pv, len, &ulWritten);
-			pStream->Release();
+			//ULONG ulWritten = 0;
+			//hr = pStream->Write(pv, len, &ulWritten);
+			//pStream->Release();
 		}	
 	}
 
@@ -448,22 +484,23 @@ bool CSSFile::ReadAllCfg()
 			return false;
 		}
 		else {
-			void* pv = nullptr;
-			ULONG len = 0;
+			//void* pv = nullptr;
+			//ULONG len = 0;
 			StgCfg* pCfg = g_GobalVariable.vecCfg[node.em];
-			StreamNode stTmp(node.em, _T(""), pCfg, vector<StorageNode>());//只是临时构造
-			TransformBase2Derived(stTmp, pv, len);
+			//StreamNode stTmp(node.em, _T(""), pCfg, vector<StorageNode>());//只是临时构造
+			//TransformBase2Derived(stTmp, pv, len);
 
+			pCfg->Read(pStream);
 			//StgNormalCfg stRead;
 			//stRead.pszUsername = _T("hello,word!");
 			/*stRead.bfloatToolbar = false;
 			stRead.nScreenTipStyle = 100;
 			len = sizeof(StgNormalCfg);*/
-			ULONG ulRead = 0;
-			hr = pStream->Read(pv, len, &ulRead);
-			//hr = pStream->Read(&stRead, len, &ulRead);
-			StgNormalCfg* p = (StgNormalCfg*)pv;
-			pStream->Release();
+
+			//ULONG ulRead = 0;
+			//hr = pStream->Read(pv, len, &ulRead);
+			//StgNormalCfg* p = (StgNormalCfg*)pv;
+			//pStream->Release();
 		}
 	}
 

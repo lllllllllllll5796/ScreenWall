@@ -27,6 +27,10 @@ public:
 	afx_msg void OnPaint();
 protected:
 	CBitmapButton m_btnModifyPswd;
+	CToolTipCtrl m_tip;
+
 public:
 	afx_msg void OnBnClickedLoginModifypswd();
+	afx_msg void OnClickedIDLogin();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

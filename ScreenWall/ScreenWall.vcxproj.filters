@@ -45,6 +45,15 @@
     <ClInclude Include="LoginDlg.h">
       <Filter>Dlg</Filter>
     </ClInclude>
+    <ClInclude Include="ModifyPswdDlg.h">
+      <Filter>Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="Stg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SSFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScreenWall.cpp">
@@ -64,6 +73,15 @@
     </ClCompile>
     <ClCompile Include="LoginDlg.cpp">
       <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="ModifyPswdDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Stg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SSFile.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +121,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\pen2_24px_Focus.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\eye.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\red_eye24px.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

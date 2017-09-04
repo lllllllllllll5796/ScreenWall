@@ -183,36 +183,44 @@
   <ItemGroup>
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="ModifyPswdDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ScreenWall.h" />
     <ClInclude Include="ScreenWallDoc.h" />
     <ClInclude Include="ScreenWallView.h" />
+    <ClInclude Include="SSFile.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Stg.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="ModifyPswdDlg.cpp" />
     <ClCompile Include="ScreenWall.cpp" />
     <ClCompile Include="ScreenWallDoc.cpp" />
     <ClCompile Include="ScreenWallView.cpp" />
+    <ClCompile Include="SSFile.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Stg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ScreenWall.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\eye.bmp" />
     <Image Include="res\grid_64px.ico" />
     <Image Include="res\icon1.ico" />
     <Image Include="res\pen2_24px.bmp" />
     <Image Include="res\pen2_24px_Focus.bmp" />
     <Image Include="res\pen_24px.bmp" />
     <Image Include="res\pen_24px.ico" />
+    <Image Include="res\red_eye24px.bmp" />
     <Image Include="res\ScreenWall.ico" />
     <Image Include="res\ScreenWallDoc.ico" />
     <Image Include="res\Toolbar.bmp" />

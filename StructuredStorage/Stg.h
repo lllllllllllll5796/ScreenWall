@@ -1,8 +1,9 @@
 #pragma once
 #include <bitset>
-//#include <string>
+#include <string>
 #include <vector>
 //#include <list>
+#include <map>
 
 
 
@@ -27,6 +28,9 @@ const unsigned int STGCFG_AutoReplaceLen = 1024;
 struct StgCfg{
 	//int nSize;//结构体大小
 	//StgCfg(int sz) : nSize(sz) {}
+	//将读写绑定到每个子类中去
+	virtual void Read(LPSTREAM/*,StgCfg*&*/) = 0;
+	virtual void Write(LPSTREAM/*,const StgCfg*&*/) = 0;
 };
 
 struct StgNormalCfg : StgCfg{
@@ -39,10 +43,15 @@ struct StgNormalCfg : StgCfg{
 	pStream读写，不像FILE能直接将TCHAR*读写，
 	所以没办法，暂时用TCHAR[]，既然是配置，合理定义大小即可，
 	*/
-	TCHAR szUsername[STGCFG_UsernameLen] = { 0 };
+	LPTSTR pszUsername /*= _T("hello")*/ = nullptr; //这样变量就不能写入了！
+	int cchUsername = 0; //这两个写入之前一定要赋值
+	//std::hash_map<
+	virtual void Read(LPSTREAM/*, StgCfg*&*/);
+	virtual void Write(LPSTREAM/*, const StgCfg*&*/);
+	//TCHAR szUsername[STGCFG_UsernameLen] = { 0 };
 	//CString szUsername;  没用
 	//int cchUsername = 0;
-	TCHAR szShortname[STGCFG_UsernameLen] = { 0 };
+	//TCHAR szShortname[STGCFG_UsernameLen] = { 0 };
 	//int cchShortname = 0;	
 
 	//拷贝构造
