@@ -12,18 +12,20 @@
 
 IMPLEMENT_DYNAMIC(CCfgNormalDlg, CDialogEx)
 
-CCfgNormalDlg::CCfgNormalDlg(CWnd* pParent /*=NULL*/)
+CCfgNormalDlg::CCfgNormalDlg(CSSFile* pSSFile, CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_Cfg_Normal, pParent)
 {
 	//m_spCfg = std::make_shared<StgNormalCfg>();
 	//m_pCfg = new StgNormalCfg();
-	m_cfg = new StgNormalCfg;
+	//m_cfg = new StgNormalCfg;
+	m_pCfg = (StgNormalCfg*)g_GobalVariable.vecCfg[StgCfgEnumNormal];
+	m_pSSFile = pSSFile;
 }
 
 CCfgNormalDlg::~CCfgNormalDlg()
 {
 	//SAFE_DELETE(m_pCfg);
-	m_pStream->Release();
+	if(m_pStream) m_pStream->Release();
 }
 
 void CCfgNormalDlg::DoDataExchange(CDataExchange* pDX)
@@ -63,9 +65,16 @@ BOOL CCfgNormalDlg::OnInitDialog()
 		ULONG ulRead = 0;
 		m_pStream->Read(m_cfg, sizeof(StgNormalCfg), &ulRead);
 	}*/
+	//获取LPSTREAM
+	//CSSFile* pSSFile = new CSSFile(g_GobalVariable.strStgCfgname);
+	//pSSFile->GetCfg(StgCfgEnumNormal, m_pStream);  //根存储Release了，m_pStream也释放！ 
+	//SAFE_DELETE(pSSFile);
+	if(m_pSSFile->IsOpen())
+		m_pSSFile->GetCfg(StgCfgEnumNormal, &m_pStream);
+	else return FALSE;
 
-	GetStgCfgs();
-	const auto cfg = (StgNormalCfg*)m_cfg;
+	//GetStgCfgs();
+	const auto cfg = (StgNormalCfg*)g_GobalVariable.vecCfg[StgCfgEnumNormal];
 	m_ck_1.SetCheck(cfg->bfloatToolbar);
 	m_ck_2.SetCheck(cfg->bRealtimePreview);
 	const CString strColorSchemes[] = { _T("红色"), _T("绿色"), _T("蓝色") };
@@ -82,8 +91,8 @@ BOOL CCfgNormalDlg::OnInitDialog()
 	}
 	m_cbo_2.SetCurSel(cfg->nScreenTipStyle);
 
-	m_edt_2.SetWindowText(cfg->strUsername);
-	m_edt_3.SetWindowText(cfg->strShortname);
+	m_edt_2.SetWindowText(cfg->szUsername);
+	m_edt_3.SetWindowText(cfg->szShortname);
 
 	m_ck_3.SetCheck(cfg->bOpenEmailWhenInReadView);
 
@@ -91,75 +100,49 @@ BOOL CCfgNormalDlg::OnInitDialog()
 }
 
 
-HRESULT CCfgNormalDlg::GetStgCfgs()
-{
-	//读取Stg：pStgRoot放在全局，pStream作为成员，优化性能 ok
-	//GetStgCfgs优化：m_cfg继承，此函数在父类实现
-	
-	//StgNormalCfg stCfg;//常规配置
-	HRESULT hr = S_OK;
-	/*auto pSSFile = g_GobalVariable.m_ssFile;
-	CString strName(g_StgStreamNames[StgDetailedCfgs_Normal]);
-	if (!pSSFile->OpenStream(strName, &m_pStream)) {
-		if (!pSSFile->CreateStream(strName, &m_pStream)) {
-			TRACE(_T("CGobalVariable::Init : CCfgNormalDlg::GetStgCfgs CreateStream Failed !"));
-		}
-	}
-	else {
-		hr = m_pStream->Read(&m_cfg, sizeof(m_cfg), 0);
-		if (hr == S_OK)
-			TRACE(_T("CCfgNormalDlg::GetStgCfgs OK."));
-	}*/
-	return hr;
-}
-
-HRESULT CCfgNormalDlg::SetStgCfgs()
-{
-	HRESULT hr = S_OK;
-	if (false == m_bDirty)
-		return hr;
-	
-	hr = m_pStream->Write(&m_cfg, sizeof(m_cfg), 0);
-
-	return hr;
-}
-
-//bool CCfgNormalDlg::IsDirty()
-//{
-//	return m_bDirty;
-//}
-
 void CCfgNormalDlg::OnClickedCheck1()
 {
-	m_bDirty = true;
-	//m_cfg->bfloatToolbar = m_ck_1.GetCheck();
+	m_pCfg->bfloatToolbar = m_ck_1.GetCheck();
+	//ULONG ulWritten = 0;
+	//找到位置写
+	MACRO_StgWrite2Pos(StgNormalCfg, bfloatToolbar);
+	//size_t pos = offsetof(StgNormalCfg, bfloatToolbar);
+	//LARGE_INTEGER li;
+	//li.QuadPart = pos;
+	//HRESULT hr = m_pStream->Seek(li, STREAM_SEEK_SET, nullptr);
+	//hr = m_pStream->Write(&m_pCfg->bfloatToolbar, sizeof(m_pCfg->bfloatToolbar), &ulWritten);
+
 }
 
 
 void CCfgNormalDlg::OnClickedCheck2()
 {
-	m_bDirty = true;
-	//m_cfg.bRealtimePreview = m_ck_2.GetCheck();
+	m_pCfg->bRealtimePreview = m_ck_2.GetCheck();
+	//找到位置写
+	MACRO_StgWrite2Pos(StgNormalCfg, bRealtimePreview);
+	/*size_t pos = offsetof(StgNormalCfg, bRealtimePreview);
+	LARGE_INTEGER li;
+	li.QuadPart = pos;
+	HRESULT hr = m_pStream->Seek(li, STREAM_SEEK_SET, nullptr);
+	hr = m_pStream->Write(&m_pCfg->bRealtimePreview, sizeof(m_pCfg->bRealtimePreview), nullptr);*/
 }
 
 
 void CCfgNormalDlg::OnClickedCheck3()
 {
-	m_bDirty = true;
 	//m_cfg.bOpenEmailWhenInReadView = m_ck_3.GetCheck();
 }
 
 
 void CCfgNormalDlg::OnSelChangeCombo1()
 {
-	m_bDirty = true;
 	//m_cfg.nColorScheme = m_cbo_1.GetCurSel();
 }
 
 
 void CCfgNormalDlg::OnSelChangeCombo2()
 {
-	m_bDirty = true;
+
 	//m_cfg.nScreenTipStyle = m_cbo_2.GetCurSel();
 }
 
@@ -167,19 +150,26 @@ void CCfgNormalDlg::OnSelChangeCombo2()
 void CCfgNormalDlg::OnChangeEdit2()
 {
 	//m_bDirty = true; 一开始就收到
-	static CString str;
+	CString str;
 	m_edt_2.GetWindowText(str);
-	//if (str != m_cfg.strUsername) {
-	//	m_bDirty = true;
-	//	m_cfg.strUsername = std::move(str);
-	//}
+	if (str != CString(m_pCfg->szUsername)) {
+		_tcscpy_s(m_pCfg->szUsername, str.GetBuffer());
+		//m_pCfg->szUsername = str;
+
+		MACRO_StgWrite2Pos(StgNormalCfg, szUsername);
+		//size_t pos = offsetof(StgNormalCfg, szUsername);
+		//LARGE_INTEGER li;
+		//li.QuadPart = pos;
+		//HRESULT hr = m_pStream->Seek(li, STREAM_SEEK_SET, nullptr);
+		//hr = m_pStream->Write(&m_pCfg->szUsername, sizeof(m_pCfg->szUsername), nullptr);
+	}
 }
 
 
 void CCfgNormalDlg::OnChangeEdit3()
 {
 	//m_bDirty = true;
-	static CString str;
+	CString str;
 	m_edt_3.GetWindowText(str);
 	//if (str != m_cfg.strShortname) {
 	//	m_bDirty = true;

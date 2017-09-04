@@ -10,10 +10,10 @@ class CCfgRevisionAutoAmendOperatorDlg : public CDialogEx,public IStgCfgOperator
 	DECLARE_DYNAMIC(CCfgRevisionAutoAmendOperatorDlg)
 
 public:
-	CCfgRevisionAutoAmendOperatorDlg(CWnd* pParent = NULL);   // standard constructor
+	CCfgRevisionAutoAmendOperatorDlg(CSSFile* pSSFile, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CCfgRevisionAutoAmendOperatorDlg();
-	virtual HRESULT GetStgCfgs();
-	virtual HRESULT SetStgCfgs();
+	//virtual HRESULT GetStgCfgs();
+	//virtual HRESULT SetStgCfgs();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
@@ -28,9 +28,9 @@ protected:
 	CCheckListBox m_li1;
 	CButton m_ch1;
 
-	StgRevisionCfg_Operator m_cfg;
-	LPSTREAM m_pStream = nullptr;
-	bool m_bDirty = false;
+	//StgRevisionCfg_Operator m_cfg;
+	//LPSTREAM m_pStream = nullptr;
+	//bool m_bDirty = false;
 
 public:
 	virtual BOOL OnInitDialog();

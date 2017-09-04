@@ -6,6 +6,13 @@
 #include "StructuredStorage.h"
 #include "StructuredStorageDlg.h"
 
+#include "Stg.h"
+//#include <vector>
+//#include <list>
+//#include <hash_map>
+//using std::vector;
+//using std::list;
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -32,6 +39,8 @@ CStructuredStorageApp::CStructuredStorageApp()
 CStructuredStorageApp theApp;
 CGobalVariable g_GobalVariable;
 
+
+
 // CStructuredStorageApp initialization
 //#include <map>
 //#include <string>
@@ -47,10 +56,9 @@ enum TestEnum {
 
 BOOL CStructuredStorageApp::InitInstance()
 {
-	//size_t len = sizeof(TEST);
-
-	//size_t  len = sizeof(TestEnum);
-
+	//ÄÚ´æÐ¹Â¶
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_crtBreakAlloc = 226;
 
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
@@ -116,3 +124,12 @@ BOOL CStructuredStorageApp::InitInstance()
 	return FALSE;
 }
 
+
+
+
+int CStructuredStorageApp::ExitInstance()
+{
+	_CrtDumpMemoryLeaks();
+
+	return CWinApp::ExitInstance();
+}

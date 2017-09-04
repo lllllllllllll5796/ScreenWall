@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "StructuredStorage.h"
 #include "CfgRevisionAutoAmendDlg.h"
+#include "CfgRevisonAutoAmendAutoAmendDlg.h"
+#include "CfgRevisionAutoAmendOperatorDlg.h"
 #include "afxdialogex.h"
 
 namespace {
@@ -18,10 +20,16 @@ namespace {
 
 IMPLEMENT_DYNAMIC(CCfgRevisionAutoAmendDlg, CDialogEx)
 
-CCfgRevisionAutoAmendDlg::CCfgRevisionAutoAmendDlg(CWnd* pParent /*=NULL*/)
+CCfgRevisionAutoAmendDlg::CCfgRevisionAutoAmendDlg(CSSFile* pSSFile, CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_CfgRevison_AutoAmend, pParent)
 {
-
+	//m_pSSFile = pSSFile;
+	m_autoAmendDlg = new CCfgRevisonAutoAmendAutoAmendDlg(pSSFile);
+	m_operatorDlg = new CCfgRevisionAutoAmendOperatorDlg(pSSFile);
+	
+	m_vecDlgPtr.resize(AutoAmendDlgsEnum_Buff);
+	m_vecDlgPtr[AutoAmend] = m_autoAmendDlg;
+	m_vecDlgPtr[Operator] = m_operatorDlg;
 }
 
 CCfgRevisionAutoAmendDlg::~CCfgRevisionAutoAmendDlg()
@@ -64,11 +72,8 @@ BOOL CCfgRevisionAutoAmendDlg::OnInitDialog()
 	}
 	//m_tab.HighlightItem(AutoAmend, TRUE);
 
-	m_autoAmendDlg.Create(IDD_CfgRevisionAutoAmend_AutoAmend, this);
-	m_operatorDlg.Create(IDD_IDD_CfgRevisionAutoAmend_Operator, this);
-	m_vecDlgPtr.resize(AutoAmendDlgsEnum_Buff);
-	m_vecDlgPtr[AutoAmend] = &m_autoAmendDlg;
-	m_vecDlgPtr[Operator] = &m_operatorDlg;
+	m_autoAmendDlg->Create(IDD_CfgRevisionAutoAmend_AutoAmend, this);
+	m_operatorDlg->Create(IDD_IDD_CfgRevisionAutoAmend_Operator, this);
 
 	y += 20;
 	for (auto pDlg : m_vecDlgPtr) {
@@ -76,7 +81,7 @@ BOOL CCfgRevisionAutoAmendDlg::OnInitDialog()
 	}
 	m_vecDlgPtr[AutoAmend]->ShowWindow(SW_NORMAL);
 
-	//读取stg：封装一个stg操作类
+	
 
 
 	return TRUE;  // return TRUE unless you set the focus to a control
